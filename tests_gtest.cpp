@@ -2,6 +2,8 @@
 #include <fstream>
 #include "statictic_cpp.h"
 #define TEST_BASE "../test_base.dat"
+#define TEST_RES "test_res.dat"
+#define TEST_COR "../test_correct.dat"
 
 std::istream& operator>> (std::istream &in, Contract &contract)
 {
@@ -130,8 +132,23 @@ TEST ( FindTest, WrongParams ) {
     } catch ( std::exception& e ) {
         ASSERT_TRUE( false );
     }
+}
 
+TEST ( Contracts, Input ) {
+    ifstream rfile ( TEST_RES );
+    ifstream cfile ( TEST_COR );
+    stringstream res, cor;
+    if(rfile.fail()){
+        return;
+    }
 
+    res << rfile.rdbuf();
+    cor << cfile.rdbuf();
+
+    EXPECT_EQ( res.str(), cor.str() );
+
+    rfile.close();
+    cfile.close();
 }
 
 int main(int argc, char** argv) {

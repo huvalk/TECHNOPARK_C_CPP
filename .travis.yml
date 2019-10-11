@@ -34,4 +34,6 @@ script:
   - ls
   - cmake ../
   - make tests_gtest
-  - ./tests_gtest
+  - make prog
+  - cat ../test_input | valgrind ./prog >> test_res.dat
+  - valgrind ./tests_gtest

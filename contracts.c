@@ -51,11 +51,11 @@ int main()
     find_top( arr, &n, &first, &second, &third );
 
     char* format_str = malloc( 40 );
-    strcpy( format_str, "First - %s" );
+    strcpy( format_str, "First - %s\n" );
     if ( n >= 2 ) {
-        strcat( format_str, ", second - %s" );
+        strcat( format_str, "Second - %s\n" );
         if ( n >= 3 ) {
-            strcat( format_str, ", third - %s" );
+            strcat( format_str, "Third - %s\n" );
         }
     }
 
