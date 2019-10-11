@@ -4,6 +4,7 @@
 #include <math.h>
 #include <assert.h>
 #include <zconf.h>
+#include "stddef.h"
 
 #include "statistic.h"
 
