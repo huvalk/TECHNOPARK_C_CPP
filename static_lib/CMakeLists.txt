@@ -1,0 +1,5 @@
+project(StaticLib)
+set(SOURCES s_user_messages.c ../mes/message.c)
+set(HEADERS s_user_messages.h ../mes/message.h)
+add_library(st_lib STATIC ${SOURCES} ${HEADERS})
+target_include_directories(st_lib PUBLIC .)

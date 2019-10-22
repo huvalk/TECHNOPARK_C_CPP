@@ -1,8 +1,8 @@
 #ifndef UNTITLED_MESSAGE_H
 #define UNTITLED_MESSAGE_H
 
-#include <zconf.h>
 #include <stdbool.h>
+#include <zconf.h>
 
 #define DEF_STR_SIZE 32
 
@@ -30,6 +30,8 @@ typedef struct Dict
 
 bool get_message( Message* current );
 
+bool get_date( Date* current );
+
 void to_dict_elem( const Message* const src, Dict* const dest);
 
 bool cmp_date_men( const Date* const left, const Date* const right );
@@ -37,7 +39,5 @@ bool cmp_date_men( const Date* const left, const Date* const right );
 bool in_period( const Date* const period, const Message* const cur );
 
 bool in_recievers( const char* const period, const Message* const cur );
-
-void resize_dict( Dict* dict, size_t* const size);
 
 #endif //UNTITLED_MESSAGE_H
