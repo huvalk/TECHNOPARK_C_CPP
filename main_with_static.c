@@ -65,7 +65,7 @@ int main() {
     }
 
     // вызов библиотечной функции
-    Dict* res = find_messages(&n, arr, user, period);
+    Dict* res = run(&n, arr, user, period);
 
     // вывод результата
     for( size_t i = 0; i < n; i++ ) {
