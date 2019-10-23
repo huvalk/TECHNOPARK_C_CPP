@@ -6,7 +6,7 @@ add_executable(IZ2_dyn main_with_dyn.c)
 target_link_libraries(IZ2_dyn PRIVATE dn_lib ${CMAKE_DL_LIBS})
 
 add_subdirectory(static_lib)
-add_executable(IZ2_st main_with_dyn.c)
+add_executable(IZ2_st main_with_static.c)
 target_link_libraries(IZ2_st PUBLIC st_lib ${CMAKE_DL_LIBS})
 
 

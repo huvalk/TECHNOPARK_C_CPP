@@ -67,15 +67,19 @@ void Sort( Dict* const arr, const size_t size, bool (*cmp)( const Date* const, c
     return;
 }
 
-Dict* find_messages( size_t* const message_count, const Message* const messages,
+Dict* FindMessages( size_t* const message_count, const Message* const messages,
                      char* const user, const Date* const period, bool (*cmp)( const Date* const, const Date* const ) )
 {
     size_t cap = DEF_ARR_SIZE, size = 0;
     Dict* dict = calloc(cap, SIZE_DICT);
+    if(dict == NULL)
+        return NULL;
     for(size_t i = 0; i < *message_count; i++) {
         if( in_period(period, (messages + i)) && in_recievers(user, (messages + i)) ) {
             if( size >= cap ) {
                 Dict* nw_dict = malloc( cap * SIZE_DICT * 2 );
+                if(nw_dict == NULL)
+                    return NULL;
                 memcpy(nw_dict, dict, cap * SIZE_DICT);
 
                 cap *= 2;
@@ -107,54 +111,91 @@ Dict* find_messages( size_t* const message_count, const Message* const messages,
 Dict* MergeFromPipe( int* const fd, const size_t cores, size_t* const chunk_len, size_t* const message_count,
             bool (*cmp)( const Date* const, const Date* const ) )
 {
-    size_t cur_size = 0;
-    read(fd[0], &cur_size, sizeof(size_t));
-    Dict* res = malloc( SIZE_DICT * cur_size );
+    // считывание первого непустого Pipe
+    size_t start = 0, cur_size = 0;
+    do {
+        read(fd[start], &cur_size, sizeof(size_t));
+        start++;
+        if (cur_size == 0) {
+            close(fd[2 * start]);
+        } else {
+            break;
+        }
+    } while ( start < cores );
 
-    read(fd[0], res, SIZE_DICT * cur_size);
-    close(fd[0]);
+    Dict* res = calloc( cur_size, SIZE_DICT );
+    if( res == NULL )
+        return NULL;
+    if( start == cores ) {
+        strcpy( res->theme, "Nothing were found" );
+        *message_count = 1;
+        return res;
+    }
 
+    read(fd[2 * start], res, SIZE_DICT * cur_size);
+    close(fd[2 * start]);
+
+    // если разбиение не было - выход
     if( cores == 1 )
         return  res;
 
-    for( size_t k = 1; k < cores; k++ ) {
+    // последовательное слияение всех массивов в один большой
+    for( size_t k = start; k < cores; k++ ) {
+        // считывание длины новго массива. Наличие этих данных в pipe гарантировано процессами-потомками
         size_t nw_size  = 0;
         read(fd[2 * k], &nw_size, sizeof(size_t));
 
+        // если массив для слияния не пустой
         if( nw_size ) {
+            // создание буфера и считывание первого значение из pipe
             Dict* buf = malloc( SIZE_DICT * ( nw_size + cur_size ) );
+            if( buf == NULL )
+                return NULL;
             size_t i = 0, j = 0;
             Dict *tmp = calloc(1, SIZE_DICT);
+            if( tmp == NULL )
+                return NULL;
             read(fd[2 * k], tmp, SIZE_DICT);
 
+            // слияние массива и pip
             while( i < cur_size && j < nw_size ) {
                 if( cmp( &res[i].date, &tmp->date ) ) {
+                    // TODO копирование
                     memcpy( buf + i + j, res + i, SIZE_DICT );
                     i++;
                 } else {
+                    // TODO копирование
                     memcpy( buf + i + j, tmp, SIZE_DICT );
                     j++;
+                    // если последний элемент pipe не был считан, читаеся следующий
                     if (j != nw_size ) read(fd[2 * k], tmp, SIZE_DICT);
                 }
             }
 
+            // завершение слияния
             if( i == cur_size ) {
                 while( j < nw_size ) {
+                    // TODO копирование
                     memcpy( buf + i + j, tmp, SIZE_DICT );
                     j++;
+                    // если последний элемент pipe не был считан, читаеся следующий
                     if (j != nw_size ) read(fd[2 * k], tmp, SIZE_DICT);
                 }
             } else {
                 while( i < cur_size ) {
+                    // TODO копирование
                     memcpy( buf + i + j, res + i, SIZE_DICT );
                     i++;
                 }
             }
 
+            // освобожение буферов
             cur_size += nw_size;
             free(res);
+            free(tmp);
             res = buf;
         }
+        // закрытие использованного дескриптора
         close(fd[2 * k]);
     }
 
@@ -162,8 +203,32 @@ Dict* MergeFromPipe( int* const fd, const size_t cores, size_t* const chunk_len,
     return res;
 }
 
-Dict* run( size_t* const message_count, const Message* const messages, char* const user, const Date* const period )
+size_t GetChunks( size_t* const chunk_len, const size_t cores, const size_t message_count)
 {
+    chunk_len[0] = (message_count)/cores;
+    if( chunk_len[0] == 0 ) {
+        chunk_len[0] = message_count;
+        return 1;
+    }
+    for( size_t i = 1; i < cores - 1; i++ ) {
+        chunk_len[i] = chunk_len[0];
+    }
+    if( (message_count) % cores == 0 ) {
+        chunk_len[cores - 1] = chunk_len[0] ;
+    } else {
+        chunk_len[cores - 1] = (message_count) % cores;
+    }
+
+    return cores;
+}
+
+Dict* run( size_t* const message_count, Message* const messages, char* const user, const Date* const period )
+{
+    if( message_count ==  0 || messages == NULL || user == NULL || period == NULL ) {
+        return NULL;
+    }
+
+    // количество доступных ядер
     const size_t cores = get_nprocs_conf();
     if(cores == 0)
         return NULL;
@@ -175,50 +240,52 @@ Dict* run( size_t* const message_count, const Message* const messages, char* con
     }
 
     // разбиение массива на куски
-    size_t* chunk_len = malloc( (cores + 1) * sizeof(size_t) );
-    chunk_len[0] = (*message_count)/cores;
-    for( size_t i = 1; i < cores - 1; i++ ) {
-        chunk_len[i] = chunk_len[0];
-    }
-    if( (*message_count) % cores == 0 ) {
-        chunk_len[cores - 1] = chunk_len[0] ;
-    } else {
-        chunk_len[cores - 1] = (*message_count) % cores;
-    }
+    size_t* chunk_len = calloc( cores, sizeof(size_t) );
+    if(chunk_len == 0)
+        return NULL;
+    const size_t chunks = GetChunks( chunk_len, cores, *message_count );
+
 
     Message* arr = messages;
-
+    // разбиение на процессы
     int status = 0;
-    size_t * ready_to_pass = mmap(NULL, sizeof(size_t), PROT_READ | PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
-    *ready_to_pass = 0;
-    pid_t* pid = calloc( cores + 1, sizeof(pid_t) );
-    pid[0] = 1;
-    for( size_t i = 1; i <= cores; i++ ) {
-        if( pid[i - 1] > 0 ) {
-            pid[i] = fork();
-            if( pid[i] == 0 ) {
-                Dict* dict = find_messages(chunk_len[i - 1], arr, user, period, cmp_date_men);
-                write(fd[2*(i - 1) + 1], chunk_len + i - 1, sizeof(size_t));
-                ready_to_pass += 1;
-                write(fd[2*(i - 1) + 1], dict, chunk_len[i - 1]);
-                close(fd[2*(i - 1) + 1]);
-                free(dict);
-                exit(0);
-            } else if ( pid[i] < 0 ) {
-                //err
-            } else {
-                close(fd[2*(i - 1) + 1]);
-                arr += chunk_len[i - 1];
-            }
+    pid_t wpid = 0, pid = 0;
+    // создание процесса на каждое ядро
+    for( size_t i = 0; i < chunks; i++ ) {
+        pid = fork();
+        if( pid == 0 ) {                // дочерний процесс
+            // обработка куска массива
+            Dict* dict = FindMessages(chunk_len + i, arr, user, period, cmp_date_men);
+            if(dict == NULL)
+                return NULL;
+            // возврат размера и значений через Pipe родительскому процессу
+            write(fd[2 * i + 1], chunk_len + i, sizeof(size_t));
+            if(chunk_len[i] != 0)
+                write(fd[2 * i + 1], dict, chunk_len[i]);
+            // закрытие использованного дескриптора
+            close(fd[2 * i + 1]);
+            // освобождение памяти и завершение процесса
+            free(dict);
+            exit(0);
+        } else if ( pid < 0 ) {
+            return NULL;
+        } else {                 //родительский процесс
+            // закрытие неиспользуемого дескриптора и переход к следующему куску массива
+            close(fd[2 * i + 1]);
+            arr += chunk_len[i];
         }
     }
 
-    while (ready_to_pass != cores) {};
     *message_count = 0;
+    // вызов слияния результатов дочерних процессов.
+    // Если какой-то из процессов не успел дописать данные в Pipe, родитеский будет заблокирован (см. документацию)
+    Dict* res = MergeFromPipe(fd, chunks, chunk_len, message_count, cmp_date_men);
 
-    Dict* res = MergeFromPipe(fd, cores, chunk_len, message_count, cmp_date_men);
+    // освобожение памяти, возврат результата, проверка состояний процессов
+    while ((wpid = wait(&status)) > 0);
+    if (wpid < 0 )
+        return NULL;
+
     free(chunk_len);
-    free(pid);
-    free(pid);
     return res;
 }

@@ -66,7 +66,10 @@ int main() {
 
     // вызов библиотечной функции
     Dict* res = run(&n, arr, user, period);
-
+    if( res == NULL ) {
+        printf(ALLOC_ERR);
+        return 1;
+    }
     // вывод результата
     for( size_t i = 0; i < n; i++ ) {
         printf("%s\n", res[i].theme);
