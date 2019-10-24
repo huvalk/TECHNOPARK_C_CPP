@@ -1,11 +1,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 #include <sys/sysinfo.h>
 #include <sys/wait.h>
 #include <zconf.h>
-#include "../mes/message.h"
+#include "../common/mes_sort.h"
 
 #define DEF_ARR_SIZE 2
 
@@ -13,62 +12,8 @@ extern size_t SIZE_DATE;
 extern size_t SIZE_MESSAGE;
 extern size_t SIZE_DICT;
 
-void Merge( const Dict* const left, const size_t left_size, const Dict* const right, const size_t right_size,
-            Dict* const buf, bool (*cmp)( const Date* const, const Date* const ) )
-{
-    size_t i = 0, j = 0;
-    // сравение идет по первому значению в кортеже
-    while( i < left_size && j < right_size ) {
-        if( cmp( &left[i].date, &right[j].date ) ) {
-            memcpy( buf + i + j, left + i, SIZE_DICT );
-            i++;
-        } else {
-            memcpy( buf + i + j, right + j, SIZE_DICT );
-            j++;
-        }
-    }
-
-    // если в одном из массивов остались элементы
-    if( i == left_size ) {
-        while( j < right_size) {
-            memcpy( buf + i + j, right + j, SIZE_DICT );
-            j++;
-        }
-    } else {
-        while( i < left_size ) {
-            memcpy( buf + i + j, left + i, SIZE_DICT );
-            i++;
-        }
-    }
-}
-
-void Sort( Dict* const arr, const size_t size, bool (*cmp)( const Date* const, const Date* const ) )
-{
-    if( size < 2)
-        return;
-
-    // выделение длины подмассивов для рекурсивной сортировки
-    size_t left_size = size / 2;
-    size_t right_size = size - left_size;
-    Sort( arr, left_size, cmp );
-    Sort( arr + left_size, right_size, cmp );
-
-    // буферный массив для слияния
-    Dict* new_arr = malloc(size * SIZE_DICT);
-
-    // слияние
-    Merge( arr, left_size, arr + left_size, right_size, new_arr, cmp );
-
-    // копирование буферного массива в основной
-    memcpy(arr, new_arr, size * SIZE_DICT);
-
-    free(new_arr);
-
-    return;
-}
-
 Dict* FindMessages( size_t* const message_count, const Message* const messages,
-                    const char* const user, const Date* const period, bool (*cmp)( const Date* const, const Date* const ) )
+                    const char* const user, const Date* const period, bool (*cmp)( const Dict* const, const Dict* const ) )
 {
     size_t cap = DEF_ARR_SIZE, size = 0;
     Dict* dict = calloc(cap, SIZE_DICT);
@@ -78,7 +23,7 @@ Dict* FindMessages( size_t* const message_count, const Message* const messages,
         int8_t flag = in_recievers(user, (messages + i));
         if(  flag == 1 && in_period(period, (messages + i)) ) {
             if( size >= cap ) {
-                Dict* nw_dict = malloc( cap * SIZE_DICT * 2 );
+                Dict* nw_dict = calloc( cap * 2, SIZE_DICT );
                 if(nw_dict == NULL)
                     return NULL;
                 memcpy(nw_dict, dict, cap * SIZE_DICT);
@@ -95,7 +40,8 @@ Dict* FindMessages( size_t* const message_count, const Message* const messages,
         }
     }
 
-    Sort(dict, size, cmp);
+    if ( Sort(dict, size, cmp_dict_men) == false )
+        return NULL;
 
     *message_count = size;
     return dict;
@@ -134,7 +80,7 @@ Dict* ReadFromPipe ( int* const fd, const size_t cores, size_t* const start, siz
 }
 
 Dict* MergeFromPipe( int* const fd, const size_t cores, size_t* const chunk_len, size_t* const message_count,
-            bool (*cmp)( const Date* const, const Date* const ) )
+            bool (*cmp)( const Dict* const, const Dict* const ) )
 {
     // чтение первого массива для слияния
     size_t start = 0, cur_size = 0;
@@ -168,7 +114,7 @@ Dict* MergeFromPipe( int* const fd, const size_t cores, size_t* const chunk_len,
 
             // слияние массива и pip
             while( i < cur_size && j < nw_size ) {
-                if( cmp( &res[i].date, &tmp->date ) ) {
+                if( cmp( res + i, tmp ) ) {
                     memcpy( buf + i + j, res + i, SIZE_DICT );
                     i++;
                 } else {
@@ -229,10 +175,11 @@ size_t GetChunks( size_t* const chunk_len, const size_t cores, const size_t mess
 
 //TODO проверить передачу параметров
 //TODO проверить write и read
-bool StartChild ( int* const fd, size_t* const chunk_len, const Message* const messages, const char* const user, const Date* const period )
+bool StartChild ( int* const fd, size_t* const chunk_len, const Message* const messages, const char* const user,
+                    const Date* const period )
 {
     // обработка куска массива
-    Dict* dict = FindMessages(chunk_len, messages, user, period, cmp_date_men);
+    Dict* dict = FindMessages(chunk_len, messages, user, period, cmp_dict_men);
     if(dict == NULL)
         return true;
     // возврат размера и значений через Pipe родительскому процессу
@@ -296,7 +243,7 @@ Dict* run( size_t* const message_count, const Message* const messages, const cha
     *message_count = 0;
     // вызов слияния результатов дочерних процессов.
     // Если какой-то из процессов не успел дописать данные в Pipe, родитеский будет заблокирован (см. документацию)
-    Dict* res = MergeFromPipe(fd, chunks, chunk_len, message_count, cmp_date_men);
+    Dict* res = MergeFromPipe(fd, chunks, chunk_len, message_count, cmp_dict_men);
 
     // освобожение памяти, возврат результата, проверка состояний процессов
     while (wpid = wait(&status) > 0);

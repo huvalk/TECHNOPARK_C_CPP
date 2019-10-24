@@ -1,8 +1,7 @@
+#include "message.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
-#include "message.h"
 
 size_t SIZE_DATE = sizeof(Date);
 size_t SIZE_MESSAGE = sizeof(Message);
@@ -64,6 +63,32 @@ bool cmp_date_men( const Date* const left, const Date* const right )
     }
 
     return res;
+}
+
+bool cmp_dict_men( const Dict* const left, const Dict* const right )
+{
+    bool res = true;
+    if( left->date.year > right->date.year ) {
+        res = false;
+    } else if ( left->date.mounth > right->date.mounth ) {
+        res = false;
+    } else if ( left->date.day > right->date.day ) {
+        res = false;
+    }
+
+    return res;
+}
+
+bool swap_dict( Dict* const left, Dict* const right ) {
+    Dict* buf = malloc( SIZE_DICT );
+    if( buf == NULL )
+        return false;
+    memcpy( buf, left, SIZE_DICT );
+    memcpy( left, right, SIZE_DICT );
+    memcpy( right, buf, SIZE_DICT );
+
+    free(buf);
+    return true;
 }
 
 bool in_period( const Date* const period, const Message* const cur )

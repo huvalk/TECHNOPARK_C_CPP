@@ -41,6 +41,10 @@ void to_dict_elem( const Message* const src, Dict* const dest);
 
 bool cmp_date_men( const Date* const left, const Date* const right );
 
+bool cmp_dict_men( const Dict* const left, const Dict* const right );
+
+bool swap_dict( Dict* const left, Dict* const right );
+
 bool in_period( const Date* const period, const Message* const cur );
 
 int8_t in_recievers( const char* const period, const Message* const cur );

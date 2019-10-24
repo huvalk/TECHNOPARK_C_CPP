@@ -1,5 +1,5 @@
 #include <dlfcn.h>
-#include "mes/message.h"
+#include "common/message.h"
 #include <stdio.h>
 #include <stdlib.h>
 
