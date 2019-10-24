@@ -33,5 +33,4 @@ script:
   - cppcheck .
   - mkdir build
   - cd build
-  - ls
   - cmake ../

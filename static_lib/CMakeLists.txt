@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.9.2)
+
 project(StaticLib)
 set(SOURCES s_user_messages.c ../common/message.c ../common/mes_sort.c)
 set(HEADERS s_user_messages.h ../common/message.h ../common/mes_sort.h)

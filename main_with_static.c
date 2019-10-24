@@ -79,8 +79,8 @@ int main() {
     }
     // вывод результата
     for (size_t i = 0; i < n; i++) {
-        printf("%s - %hhu.%hhu.%hu\n", res[i].theme, res[i].date.day,
-               res[i].date.mounth, res[i].date.year);
+      printf("%s - %hhu.%hhu.%hu\n", res[i].theme, res[i].date.day,
+             res[i].date.mounth, res[i].date.year);
     }
 
     // завершение программы
