@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include "d_user_messages.h"
 #include "../common/mes_sort.h"
 
 #define DEF_ARR_SIZE 2
@@ -8,12 +9,6 @@
 extern size_t SIZE_DATE;
 extern size_t SIZE_MESSAGE;
 extern size_t SIZE_DICT;
-
-
-struct exportVtable {
-    Dict *(*findMessages)(size_t *const message_count, const Message *const messages, char *const user,
-                          const Date *const period);
-};
 
 Dict *findMessages(size_t *const message_count, const Message *const messages,
                    char *const user, const Date *const period) {

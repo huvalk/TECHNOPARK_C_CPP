@@ -255,5 +255,7 @@ Dict *run(size_t *const message_count, const Message *const messages,
   while (wpid = wait(&status) > 0)
     ;
   free(chunk_len);
+  if(status != 0)
+      return NULL;
   return res;
 }

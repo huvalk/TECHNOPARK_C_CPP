@@ -1,5 +1,6 @@
 #include <dlfcn.h>
 #include "common/message.h"
+#include "dyn_lib/d_user_messages.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,12 +12,6 @@ extern size_t SIZE_MESSAGE;
 extern size_t SIZE_DICT;
 
 void *library;
-
-struct exportVtable {
-  Dict *(*findMessages)(size_t *const message_count,
-                        const Message *const messages, char *const user,
-                        const Date *const period);
-};
 
 int main() {
     // подключение динамической библиотеки
@@ -113,5 +108,6 @@ int main() {
     free(period);
     free(user);
     free(arr);
+    dlclose(library);
     return 0;
 }
