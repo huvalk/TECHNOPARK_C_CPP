@@ -11,85 +11,93 @@ extern size_t SIZE_MESSAGE;
 extern size_t SIZE_DICT;
 
 void *library;
-struct export_vtable {
-    Dict* (*find_messages)(size_t* const message_count, const Message* const messages, char* const user, const Date* const period);
+
+struct exportVtable {
+    Dict *(*findMessages)(size_t *const message_count, const Message *const messages, char *const user,
+                          const Date *const period);
 };
 
 int main() {
     // подключение динамической библиотеки
     library = dlopen("libdn_lib.so", RTLD_LAZY);
-    struct export_vtable* imports;
-    if(!library) { printf("lib_err"); return 0; }
-
-    imports = dlsym(library, "exports");
-    if(!imports) { printf("import_err"); return 0; }
-
-    // чтение входных данных
-    size_t n = 0;
-    printf( "How many messages you wold like to insert?\n" );
-    while( scanf("%lu", &n) != 1 ) {
-        printf(INPUT_ERR);
-        while ( ( getchar() ) != '\n' );
-    }
-
-    if( n <= 1 ) {
+    struct exportVtable *imports;
+    if (!library) {
+        printf("lib_err");
         return 0;
     }
 
-    Message* arr = calloc(n, sizeof(Message));
-    if( arr == NULL ) {
+    imports = dlsym(library, "exports");
+    if (!imports) {
+        printf("import_err");
+        return 0;
+    }
+
+    // чтение входных данных
+    size_t n = 0;
+    printf("How many messages you wold like to insert?\n");
+    while (scanf("%lu", &n) != 1) {
+        printf(INPUT_ERR);
+        while ((getchar()) != '\n');
+    }
+
+    if (n <= 1) {
+        return 0;
+    }
+
+    Message *arr = calloc(n, sizeof(Message));
+    if (arr == NULL) {
         printf(ALLOC_ERR);
         return 0;
     }
 
     // чтение писем
-    printf( "Type in all messages. Format: *Name* *body* *rec* *theme* *dd.mm.yyyy*\n" );
-    for( ptrdiff_t i = 0; i < n; i++ ) {
-        if( get_message( arr + i ) ) {
+    printf("Type in all messages. Format: *Name* *body* *rec* *theme* *dd.mm.yyyy*\n");
+    for (ptrdiff_t i = 0; i < n; i++) {
+        if (getMessage(arr + i)) {
             i--;
             printf(INPUT_ERR);
-            while ( ( getchar() ) != '\n' );
+            while ((getchar()) != '\n');
         }
     }
 
     // чтение имени пользователя
-    char* user = malloc(32);
-    if( user == NULL ) {
+    char *user = malloc(32);
+    if (user == NULL) {
         printf(ALLOC_ERR);
         return 0;
     }
-    while( scanf("%31s", user) != 1 ) {
+    while (scanf("%31s", user) != 1) {
         printf(INPUT_ERR);
-        while ( ( getchar() ) != '\n' );
+        while ((getchar()) != '\n');
     }
 
     // чтение периода для поиска
-    Date* period = malloc( SIZE_DATE * 2 );
-    if( period == NULL ) {
+    Date *period = malloc(SIZE_DATE * 2);
+    if (period == NULL) {
         printf(ALLOC_ERR);
         return 0;
     }
-    for( ptrdiff_t i = 0; i < 2; i++ ) {
-        if( get_date( period + i ) ) {
+    for (ptrdiff_t i = 0; i < 2; i++) {
+        if (getDate(period + i)) {
             i--;
             printf(INPUT_ERR);
-            while ( ( getchar() ) != '\n' );
+            while ((getchar()) != '\n');
         }
     }
 
     // вызов библиотечной функции
-    Dict* res = imports->find_messages(&n, arr, user, period);
-    if( res == NULL ) {
+    Dict *res = imports->findMessages(&n, arr, user, period);
+    if (res == NULL) {
         printf(ALLOC_ERR);
         return 1;
     }
     // вывод результата
-    for( size_t i = 0; i < n; i++ ) {
+    for (size_t i = 0; i < n; i++) {
         printf("%s - %hhu.%hhu.%hu\n", res[i].theme, res[i].date.day, res[i].date.mounth, res[i].date.year);
     }
 
     // завершение программы
-    for( size_t i = 0; i < n; i++ ) {
+    for (size_t i = 0; i < n; i++) {
         free(arr[i].user_name);
     }
     free(res);

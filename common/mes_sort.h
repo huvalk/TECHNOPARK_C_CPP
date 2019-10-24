@@ -4,6 +4,6 @@
 #include "message.h"
 #include <stdbool.h>
 
-bool Sort( Dict* const arr, size_t size, bool (*cmp)( const Dict* const, const Dict* const ) );
+bool sort(Dict *const arr, size_t size, bool (*cmp)(const Dict *const, const Dict *const));
 
 #endif //IZ2_MES_SORT_H
