@@ -10,24 +10,26 @@
 // TODO добавить метод копирования словаря
 
 typedef struct Date {
-    u_int8_t day;
-    u_int8_t mounth;
-    unsigned short year;
+  u_int8_t day;
+  u_int8_t mounth;
+  unsigned short year;
 } Date;
 
 typedef struct Message {
-    Date date;
-    char *user_name;
-    char *body;
-    char *theme;
-    // поле recievers находится непосредственно внутри структы для более эффективной работы с кэшем при поиске
-    char recievers[DEF_STR_SIZE * 15];
+  Date date;
+  char *user_name;
+  char *body;
+  char *theme;
+  // поле recievers находится непосредственно внутри структы для более
+  // эффективной работы с кэшем при поиске
+  char recievers[DEF_STR_SIZE * 15];
 } Message;
 
 typedef struct Dict {
-    Date date;
-    // поле theme находится непосредственно внутри структы для более эффективной работы с кэшем при сортировке и выводе
-    char theme[4 * DEF_STR_SIZE];
+  Date date;
+  // поле theme находится непосредственно внутри структы для более эффективной
+  // работы с кэшем при сортировке и выводе
+  char theme[4 * DEF_STR_SIZE];
 } Dict;
 
 bool getMessage(Message *current);

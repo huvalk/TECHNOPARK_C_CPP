@@ -30,7 +30,7 @@ install:
   - cd "${TRAVIS_BUILD_DIR}"
 
 script:
-  - cppcheck statictic_cpp.h statictic.h structs.h statistic.c contracts.c
+  - cppcheck .
   - mkdir build
   - cd build
   - ls

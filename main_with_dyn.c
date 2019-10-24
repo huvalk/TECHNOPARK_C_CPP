@@ -13,7 +13,8 @@ extern size_t SIZE_DICT;
 void *library;
 
 struct exportVtable {
-    Dict *(*findMessages)(size_t *const message_count, const Message *const messages, char *const user,
+    Dict *(*findMessages)(size_t *const message_count,
+                          const Message *const messages, char *const user,
                           const Date *const period);
 };
 
@@ -51,7 +52,8 @@ int main() {
     }
 
     // чтение писем
-    printf("Type in all messages. Format: *Name* *body* *rec* *theme* *dd.mm.yyyy*\n");
+    printf("Type in all messages. Format: *Name* *body* *rec* *theme* "
+           "*dd.mm.yyyy*\n");
     for (ptrdiff_t i = 0; i < n; i++) {
         if (getMessage(arr + i)) {
             i--;
@@ -64,6 +66,7 @@ int main() {
     char *user = malloc(32);
     if (user == NULL) {
         printf(ALLOC_ERR);
+        free(arr);
         return 0;
     }
     while (scanf("%31s", user) != 1) {
@@ -75,6 +78,8 @@ int main() {
     Date *period = malloc(SIZE_DATE * 2);
     if (period == NULL) {
         printf(ALLOC_ERR);
+        free(arr);
+        free(user);
         return 0;
     }
     for (ptrdiff_t i = 0; i < 2; i++) {
@@ -89,11 +94,15 @@ int main() {
     Dict *res = imports->findMessages(&n, arr, user, period);
     if (res == NULL) {
         printf(ALLOC_ERR);
+        free(arr);
+        free(user);
+        free(period);
         return 1;
     }
     // вывод результата
     for (size_t i = 0; i < n; i++) {
-        printf("%s - %hhu.%hhu.%hu\n", res[i].theme, res[i].date.day, res[i].date.mounth, res[i].date.year);
+        printf("%s - %hhu.%hhu.%hu\n", res[i].theme, res[i].date.day,
+               res[i].date.mounth, res[i].date.year);
     }
 
     // завершение программы
