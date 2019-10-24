@@ -11,22 +11,24 @@ size_t SIZE_DICT = sizeof(Dict);
 bool get_message( Message* current )
 {
     Date buf_d = {0, 0, 0};
-    char* buf_name = malloc( DEF_STR_SIZE * 25 );
+    char* buf_name = calloc( DEF_STR_SIZE * 20, 1 );
     char* buf_body = buf_name + DEF_STR_SIZE;
-    char* buf_rec = buf_name + DEF_STR_SIZE * 11;
-    char* buf_theme = buf_name + DEF_STR_SIZE * 21;
+    char* buf_theme = buf_name + DEF_STR_SIZE * 16;
+    char* buf_rec = calloc(DEF_STR_SIZE * 15, 1);
 
-    size_t result = scanf( "%31s %319s %319s %127s %hhu.%hhu.%hu", buf_name, buf_body, buf_rec, buf_theme, &buf_d.day, &buf_d.mounth, &buf_d.year );
+
+    size_t result = scanf( "%21s %329s %329s %43s %hhu.%hhu.%hu", buf_name, buf_body, buf_rec, buf_theme, &buf_d.day, &buf_d.mounth, &buf_d.year );
     if( result == 7 ){
-        strcpy( current->user_name, buf_name );
-        strcpy( current->body, buf_body );
-        strcpy( current->recievers, buf_rec );
-        strcpy( current->theme, buf_theme );
+        current->user_name = buf_name;
+        current->body = buf_body;
+        current->theme = buf_theme;
         memcpy( &current->date, &buf_d, SIZE_DATE );
-        free( buf_name );
+        strcpy( current->recievers, buf_rec );
+        free( buf_rec );
         return 0;
     } else {
         free( buf_name );
+        free( buf_rec );
         return 1;
     }
 }
@@ -69,9 +71,24 @@ bool in_period( const Date* const period, const Message* const cur )
     return ( cmp_date_men(period, &cur->date) && cmp_date_men(&cur->date, period + 1) );
 }
 
-bool in_recievers( const char* const user, const Message* const cur )
+int8_t in_recievers( const char* const user, const Message* const cur )
 {
-    return strstr(cur->recievers, user) != 0;
+    size_t buf_size = strlen(user) + 3;
+    char* buf = malloc( buf_size * sizeof(char) );
+    memset(buf, 0, buf_size);
+    if( buf == NULL) {
+        return -1;
+    }
+    buf[0] = '/';
+    strcat( buf, user );
+    strcat( buf, ".");
+    bool res = strstr( cur->recievers, buf );
+    free(buf);
+    if( res ) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 

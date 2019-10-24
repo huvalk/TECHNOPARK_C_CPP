@@ -74,10 +74,15 @@ Dict* find_messages( size_t* const message_count, const Message* const messages,
 {
     size_t cap = DEF_ARR_SIZE, size = 0;
     Dict* dict = calloc(cap, SIZE_DICT);
+    if(dict == NULL)
+        return NULL;
     for(size_t i = 0; i < *message_count; i++) {
-        if( in_period(period, (messages + i)) && in_recievers(user, (messages + i)) ) {
+        int8_t flag = in_recievers(user, (messages + i));
+        if(  flag == 1 && in_period(period, (messages + i)) ) {
             if( size >= cap ) {
                 Dict* nw_dict = malloc( cap * SIZE_DICT * 2 );
+                if(nw_dict == NULL)
+                    return NULL;
                 memcpy(nw_dict, dict, cap * SIZE_DICT);
 
                 cap *= 2;
@@ -85,18 +90,10 @@ Dict* find_messages( size_t* const message_count, const Message* const messages,
                 dict = nw_dict;
             }
 
-            for( size_t i = 0; i < size; i++ ) {
-                printf("%s, ", dict[i].theme);
-            }
-            puts("\n");
-
             to_dict_elem((messages + i), (dict + size));
             size++;
-
-            for( size_t i = 0; i < size; i++ ) {
-                printf("%s, ", dict[i].theme);
-            }
-            puts("\n");
+        } else if (flag == -1) {
+            return NULL;
         }
     }
 

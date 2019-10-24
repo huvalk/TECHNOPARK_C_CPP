@@ -19,7 +19,7 @@ int main() {
         while ( ( getchar() ) != '\n' );
     }
 
-    if( n <= 1 ) {
+    if( n < 1 ) {
         return 0;
     }
 
@@ -72,10 +72,13 @@ int main() {
     }
     // вывод результата
     for( size_t i = 0; i < n; i++ ) {
-        printf("%s\n", res[i].theme);
+        printf("%s - %hhu.%hhu.%hu\n", res[i].theme, res[i].date.day, res[i].date.mounth, res[i].date.year);
     }
 
     // завершение программы
+    for( size_t i = 0; i < n; i++ ) {
+        free(arr[i].user_name);
+    }
     free(res);
     free(period);
     free(user);

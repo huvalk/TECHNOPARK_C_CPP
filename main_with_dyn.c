@@ -79,13 +79,19 @@ int main() {
 
     // вызов библиотечной функции
     Dict* res = imports->find_messages(&n, arr, user, period);
-
+    if( res == NULL ) {
+        printf(ALLOC_ERR);
+        return 1;
+    }
     // вывод результата
     for( size_t i = 0; i < n; i++ ) {
-        printf("%s\n", res[i].theme);
+        printf("%s - %hhu.%hhu.%hu\n", res[i].theme, res[i].date.day, res[i].date.mounth, res[i].date.year);
     }
 
     // завершение программы
+    for( size_t i = 0; i < n; i++ ) {
+        free(arr[i].user_name);
+    }
     free(res);
     free(period);
     free(user);
