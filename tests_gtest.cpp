@@ -47,7 +47,7 @@ public:
     period[1].mounth = 100;
     period[1].year = 100;
 
-    max_size = 10000;
+    max_size = 1000000;
     mes = new Message[max_size];
 
     genMessages(mes, max_size);
