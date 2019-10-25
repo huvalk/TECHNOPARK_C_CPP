@@ -157,8 +157,8 @@ TEST(Message, swapDict) {
   strcpy(right->theme, "f");
   swapDict(left, right);
 
-  EXPECT_EQ(string(left->theme), "f"s);
-  EXPECT_EQ(string(right->theme), "d"s);
+  EXPECT_EQ(string(left->theme), string("f"));
+  EXPECT_EQ(string(right->theme), string("d"));
 
   delete left;
   delete right;
