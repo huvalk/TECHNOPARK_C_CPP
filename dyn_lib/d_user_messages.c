@@ -44,4 +44,4 @@ Dict *findMessages(size_t *const message_count, const Message *const messages,
     return dict;
 }
 
-struct exportVtable exports = {findMessages};
+struct exportVtable exports = {*findMessages};

@@ -7,8 +7,6 @@
 
 using namespace std;
 
-//TODO mes удаление в тестах
-
 void genMessages(Message *mes, size_t size) {
   char *buf = new char[4];
   for (size_t i = 0; i < size; i++) {
@@ -40,6 +38,7 @@ public:
     library = dlopen("libdn_lib.so", RTLD_LAZY);
     imports = (exportVtable *)(dlsym(library, "exports"));
     srand(unsigned(time(0)));
+
     period = new Date[2];
     period[0].day = 0;
     period[0].mounth = 0;
@@ -47,22 +46,45 @@ public:
     period[1].day = 100;
     period[1].mounth = 100;
     period[1].year = 100;
+
+    max_size = 1000000;
+      mes = new Message[max_size];
+
+      genMessages(mes, max_size);
   }
 
-  // Override this to define how to tear down the environment.
   virtual void TearDown() override {
     dlclose(library);
+      for (size_t i = 0; i < max_size; i++) {
+          delete[] mes[i].user_name;
+      }
     imports = NULL;
+      delete[] mes;
     delete[] period;
+    delete[] s_res;
+    delete[] d_res;
+
   }
+
+  static Message *mes;
+    static size_t max_size;
+    static size_t min_size;
   static Date *period;
   static void *library;
+    static Dict *s_res;
+    static Dict *d_res;
   static exportVtable *imports;
 };
 
+Message *MyEnvironment::mes;
+size_t MyEnvironment::max_size;
+size_t MyEnvironment::min_size;
 void *MyEnvironment::library;
 exportVtable *MyEnvironment::imports;
 Date *MyEnvironment::period;
+Dict *MyEnvironment::s_res;
+Dict *MyEnvironment::d_res;
+
 
 TEST(Message, toDictElem) {
   Message *mes = new Message{{1, 1, 1}};
@@ -189,110 +211,10 @@ TEST(sort, heap) {
   delete[] dict;
 }
 
-//// данных меньше, чем ядер
-//TEST(findMessages, heap1) {
-//  size_t size = 4;
-//  Message *mes = new Message[size];
-//
-//  genMessages(mes, size);
-//
-//  char *user = new char[2];
-//  strcpy(user, "B");
-//
-//  Dict *s_res = run(&size, mes, user, MyEnvironment::period);
-//  Dict *d_res = MyEnvironment::imports->findMessages(&size, mes, user,
-//                                                     MyEnvironment::period);
-//
-//  delete[] user;
-//
-//  bool flag = true;
-//  for (size_t i = 0; i < size && flag; i++) {
-//    if (!cmpDictEq(s_res + i, d_res + i))
-//      flag = false;
-//    delete[] mes[i].user_name;
-//  }
-//
-//  EXPECT_EQ(flag, true);
-//
-//  delete[] mes;
-//  delete[] d_res;
-//  delete[] s_res;
-//}
-//
-//// данных больше, чем ядер
-//TEST(findMessages, heap2) {
-//  size_t size = 21;
-//  Message *mes = new Message[size];
-//
-//  genMessages(mes, size);
-//
-//  char *user = new char[2];
-//  strcpy(user, "B");
-//
-//  Dict *s_res = run(&size, mes, user, MyEnvironment::period);
-//
-//  Dict *d_res = MyEnvironment::imports->findMessages(&size, mes, user,
-//                                                     MyEnvironment::period);
-//  delete[] user;
-//
-//  bool flag = true;
-//  for (size_t i = 0; i < size && flag; i++) {
-//    if (!cmpDictEq(s_res + i, d_res + i))
-//      flag = false;
-//    delete[] mes[i].user_name;
-//  }
-//
-//  EXPECT_EQ(flag, true);
-//
-//  delete[] mes;
-//  delete[] d_res;
-//  delete[] s_res;
-//}
-//
-//// данных больше, чем ядер
-//TEST(findMessages, heap3) {
-//  size_t size = 1000000;
-//  Message *mes = new Message[size];
-//
-//  genMessages(mes, size);
-//
-//  char *user = new char[2];
-//  strcpy(user, "B");
-//
-//  Dict *s_res = run(&size, mes, user, MyEnvironment::period);
-//
-//  Dict *d_res = MyEnvironment::imports->findMessages(&size, mes, user,
-//                                                     MyEnvironment::period);
-//  delete[] user;
-//
-//  cout << size << '\n';
-//
-//  bool flag = true;
-//  for (size_t i = 0; i < size && flag; i++) {
-//    if (!cmpDictEq(s_res + i, d_res + i)) {
-//      flag = false;
-//      printf("%hhu, %hhu, %hu - ", s_res[i].date.day, s_res[i].date.mounth,
-//             s_res[i].date.year);
-//      printf("%hhu, %hhu, %hu\n", d_res[i].date.day, d_res[i].date.mounth,
-//             d_res[i].date.year);
-//    }
-//
-//    delete[] mes[i].user_name;
-//  }
-//
-//  EXPECT_EQ(flag, true);
-//
-//  delete[] mes;
-//  delete[] d_res;
-//  delete[] s_res;
-//}
-
 // данных больше, чем ядер
 TEST(findMessages, stat) {
-    size_t size = 10000;
-    Message *mes = new Message[size];
-
-    genMessages(mes, size);
+    size_t size = MyEnvironment::max_size;
+    Message *mes = MyEnvironment::mes;
 
     char *user = new char[2];
     strcpy(user, "B");
@@ -301,43 +223,42 @@ TEST(findMessages, stat) {
 
     delete[] user;
 
-    cout << size << '\n';
-
     bool flag = true;
-    for (size_t i = 0; i < size && flag; i++) {
-        delete[] mes[i].user_name;
-    }
 
     EXPECT_EQ(flag, true);
 
-    delete[] mes;
-    delete[] s_res;
+    MyEnvironment::s_res = s_res;
 }
 
 TEST(findMessages, dyn) {
-    size_t size = 10000;
-    Message *mes = new Message[size];
+    size_t size = MyEnvironment::max_size;
+    Message *mes = MyEnvironment::mes;
 
-    genMessages(mes, size);
+  char *user = new char[2];
+  strcpy(user, "B");
 
-    char *user = new char[2];
-    strcpy(user, "B");
+  Dict *d_res = MyEnvironment::imports->findMessages(&size, mes, user,
+                                                     MyEnvironment::period);
 
-    Dict *s_res = MyEnvironment::imports->findMessages(&size, mes, user, MyEnvironment::period);
+  delete[] user;
 
-    delete[] user;
+  bool flag = true;
 
-    cout << size << '\n';
+  EXPECT_EQ(flag, true);
 
+  MyEnvironment::d_res = d_res;
+}
+
+TEST(findMessages, cmp_dyn_stat) {
     bool flag = true;
+    size_t size = MyEnvironment::max_size;
     for (size_t i = 0; i < size && flag; i++) {
-        delete[] mes[i].user_name;
+        if (!cmpDictEq(MyEnvironment::s_res + i, MyEnvironment::d_res + i)) {
+          flag = false;
+        }
     }
 
     EXPECT_EQ(flag, true);
-
-    delete[] mes;
-    delete[] s_res;
 }
 
 int main(int argc, char **argv) {
