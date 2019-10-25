@@ -5,41 +5,7 @@
 #include <dlfcn.h>
 #include <fstream>
 
-#define BASE_DICT "../test_base_dict.dat"
-#define SORT_DICT "../test_sort_dict.dat"
-
 using namespace std;
-
-// std::istream& operator>> (std::istream &in, Message &mes)
-//{
-//    in >> mes.date;
-//    in >> mes.type;
-//    in >> mes.sum;
-//    in >> mes.date.day;
-//    in >> mes.date.mounth;
-//    in >> mes.date.year;
-//    return in;
-//}
-//
-// std::istream& operator>> (std::istream &in, Dict &dict)
-//{
-//    in >> dict.date.day;
-//    in >> dict.date.mounth;
-//    in >> dict.date.year;
-//    in >> dict.theme;
-//
-//    return in;
-//}
-//
-// std::ostream& operator<< (std::ostream &in, Dict &dict)
-//{
-//    in << dict.date.day;
-//    in << dict.date.mounth;
-//    in << dict.date.year;
-//    in << dict.theme;
-//
-//    return in;
-//}
 
 void genMessages(Message *mes, size_t size) {
   char *buf = new char[4];
@@ -110,6 +76,9 @@ TEST(Message, toDictElem) {
   EXPECT_EQ(dict->date.mounth, mes->date.mounth);
   EXPECT_EQ(dict->date.year, mes->date.year);
   EXPECT_EQ(std::string(dict->theme), std::string(mes->theme));
+
+  delete mes;
+  delete dict;
 }
 
 TEST(Message, cmpDictMen) {
@@ -243,6 +212,7 @@ TEST(findMessages, heap1) {
 
   EXPECT_EQ(flag, true);
 
+    delete[] mes;
   delete[] d_res;
   delete[] s_res;
 }
@@ -272,6 +242,7 @@ TEST(findMessages, heap2) {
 
   EXPECT_EQ(flag, true);
 
+    delete[] mes;
   delete[] d_res;
   delete[] s_res;
 }
@@ -309,7 +280,8 @@ TEST(findMessages, heap3) {
 
   EXPECT_EQ(flag, true);
 
-  delete[] d_res;
+    delete[] mes;
+//  delete[] d_res;
   delete[] s_res;
 }
 
