@@ -51,23 +51,23 @@ void toDictElem(const Message *const src, Dict *const dest) {
 }
 
 bool cmpDateMen(const Date *const left, const Date *const right) {
-  int d1 = left->year*365 + left->mounth*31 + left->day;
-  int d2 = right->year*365 + right->mounth*31 + right->day;
-    if(d1 < d2) {
-        return true;
-    } else {
-        return false;
-    }
+  int d1 = left->year * 365 + left->mounth * 31 + left->day;
+  int d2 = right->year * 365 + right->mounth * 31 + right->day;
+  if (d1 < d2) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool cmpDateEq(const Date *const left, const Date *const right) {
-    int d1 = left->year*365 + left->mounth*31 + left->day;
-    int d2 = right->year*365 + right->mounth*31 + right->day;
-    if(d1 == d2) {
-        return true;
-    } else {
-        return false;
-    }
+  int d1 = left->year * 365 + left->mounth * 31 + left->day;
+  int d2 = right->year * 365 + right->mounth * 31 + right->day;
+  if (d1 == d2) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool cmpDictMen(const Dict *const left, const Dict *const right) {
@@ -75,7 +75,7 @@ bool cmpDictMen(const Dict *const left, const Dict *const right) {
 }
 
 bool cmpDictEq(const Dict *const left, const Dict *const right) {
-    return cmpDateEq(&left->date, &right->date);
+  return cmpDateEq(&left->date, &right->date);
 }
 
 bool swapDict(Dict *const left, Dict *const right) {
@@ -91,8 +91,7 @@ bool swapDict(Dict *const left, Dict *const right) {
 }
 
 bool inPeriod(const Date *const period, const Message *const cur) {
-  return (cmpDateMen(period, &cur->date) &&
-          cmpDateMen(&cur->date, period + 1));
+  return (cmpDateMen(period, &cur->date) && cmpDateMen(&cur->date, period + 1));
 }
 
 int8_t inRecievers(const char *const user, const Message *const cur) {

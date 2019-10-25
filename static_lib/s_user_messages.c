@@ -175,7 +175,6 @@ size_t getChunks(size_t *const chunk_len, const size_t cores,
   return cores;
 }
 
-
 bool startChild(int *const fd, size_t *const chunk_len,
                 const Message *const messages, const char *const user,
                 const Date *const period) {
