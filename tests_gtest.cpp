@@ -314,6 +314,32 @@ TEST(findMessages, stat) {
     delete[] s_res;
 }
 
+TEST(findMessages, dyn) {
+    size_t size = 10000;
+    Message *mes = new Message[size];
+
+    genMessages(mes, size);
+
+    char *user = new char[2];
+    strcpy(user, "B");
+
+    Dict *s_res = MyEnvironment::imports->findMessages(&size, mes, user, MyEnvironment::period);
+
+    delete[] user;
+
+    cout << size << '\n';
+
+    bool flag = true;
+    for (size_t i = 0; i < size && flag; i++) {
+        delete[] mes[i].user_name;
+    }
+
+    EXPECT_EQ(flag, true);
+
+    delete[] mes;
+    delete[] s_res;
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   AddGlobalTestEnvironment(new MyEnvironment);
