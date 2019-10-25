@@ -1,7 +1,7 @@
         -:    0:Source:/usr/include/gtest/gtest-printers.h
         -:    0:Graph:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcno
         -:    0:Data:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcda
-        -:    0:Runs:1
+        -:    0:Runs:18
         -:    0:Programs:1
         -:    1:// Copyright 2007, Google Inc.
         -:    2:// All rights reserved.
@@ -279,6 +279,9 @@ call    0 never executed
         -:  272:template <typename ToPrint, typename OtherOperand>
         -:  273:class FormatForComparison {
         -:  274: public:
+function _ZN7testing8internal19FormatForComparisonIbaE6FormatB5cxx11ERKb called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal19FormatForComparisonIabE6FormatB5cxx11ERKa called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal19FormatForComparisonIbbE6FormatB5cxx11ERKb called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal19FormatForComparisonINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_E6FormatERKS7_ called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal19FormatForComparisonIttE6FormatB5cxx11ERKt called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal19FormatForComparisonIhhE6FormatB5cxx11ERKh called 0 returned 0% blocks executed 0%
@@ -287,6 +290,9 @@ function _ZN7testing8internal19FormatForComparisonIhhE6FormatB5cxx11ERKh called 
 call    0 never executed
 call    1 never executed
 call    2 never executed
+call    3 never executed
+call    4 never executed
+call    5 never executed
         -:  277:  }
         -:  278:};
         -:  279:
@@ -359,6 +365,9 @@ call    2 never executed
         -:  346://
         -:  347:// INTERNAL IMPLEMENTATION - DO NOT USE IN A USER PROGRAM.
         -:  348:template <typename T1, typename T2>
+function _ZN7testing8internal33FormatForComparisonFailureMessageIbaEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_RKT0_ called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal33FormatForComparisonFailureMessageIabEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_RKT0_ called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal33FormatForComparisonFailureMessageIbbEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_RKT0_ called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal33FormatForComparisonFailureMessageINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_EES7_RKT_RKT0_ called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal33FormatForComparisonFailureMessageIttEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_RKT0_ called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal33FormatForComparisonFailureMessageIhhEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_RKT0_ called 0 returned 0% blocks executed 0%
@@ -368,6 +377,9 @@ function _ZN7testing8internal33FormatForComparisonFailureMessageIhhEENSt7__cxx11
 call    0 never executed
 call    1 never executed
 call    2 never executed
+call    3 never executed
+call    4 never executed
+call    5 never executed
         -:  352:}
         -:  353:
         -:  354:// UniversalPrinter<T>::Print(value, ostream_ptr) prints the given
@@ -518,9 +530,13 @@ branch  3 never executed
         -:  492:}
         -:  493:
         -:  494:// Overloads for other simple built-in types.
-        -:  495:inline void PrintTo(bool x, ::std::ostream* os) {
-        -:  496:  *os << (x ? "true" : "false");
-        -:  497:}
+function _ZN7testing8internal7PrintToEbPSo called 0 returned 0% blocks executed 0%
+    #####:  495:inline void PrintTo(bool x, ::std::ostream* os) {
+    #####:  496:  *os << (x ? "true" : "false");
+branch  0 never executed
+branch  1 never executed
+call    2 never executed
+    #####:  497:}
         -:  498:
         -:  499:// Overload for wchar_t type.
         -:  500:// Prints a wchar_t as a symbol if it is printable or as its internal
@@ -723,6 +739,8 @@ call    0 never executed
         -:  695:  // Note: we deliberately don't call this PrintTo(), as that name
         -:  696:  // conflicts with ::testing::internal::PrintTo in the body of the
         -:  697:  // function.
+function _ZN7testing8internal16UniversalPrinterIaE5PrintERKaPSo called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal16UniversalPrinterIbE5PrintERKbPSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal16UniversalPrinterItE5PrintERKtPSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal16UniversalPrinterIhE5PrintERKhPSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal16UniversalPrinterINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEE5PrintERKS7_PSo called 0 returned 0% blocks executed 0%
@@ -739,6 +757,8 @@ function _ZN7testing8internal16UniversalPrinterINSt7__cxx1112basic_stringIcSt11c
 call    0 never executed
 call    1 never executed
 call    2 never executed
+call    3 never executed
+call    4 never executed
     #####:  708:  }
         -:  709:
         -:  710:  GTEST_DISABLE_MSC_WARNINGS_POP_()
@@ -814,6 +834,8 @@ call    2 never executed
         -:  780:template <typename T>
         -:  781:class UniversalTersePrinter {
         -:  782: public:
+function _ZN7testing8internal21UniversalTersePrinterIaE5PrintERKaPSo called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal21UniversalTersePrinterIbE5PrintERKbPSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal21UniversalTersePrinterINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEE5PrintERKS7_PSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal21UniversalTersePrinterItE5PrintERKtPSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal21UniversalTersePrinterIhE5PrintERKhPSo called 0 returned 0% blocks executed 0%
@@ -822,6 +844,8 @@ function _ZN7testing8internal21UniversalTersePrinterIhE5PrintERKhPSo called 0 re
 call    0 never executed
 call    1 never executed
 call    2 never executed
+call    3 never executed
+call    4 never executed
     #####:  785:  }
         -:  786:};
         -:  787:template <typename T>
@@ -889,6 +913,8 @@ call    2 never executed
         -:  849:// (const) char pointer, this prints both the pointer and the
         -:  850:// NUL-terminated string.
         -:  851:template <typename T>
+function _ZN7testing8internal14UniversalPrintIaEEvRKT_PSo called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal14UniversalPrintIbEEvRKT_PSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal14UniversalPrintItEEvRKT_PSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal14UniversalPrintIhEEvRKT_PSo called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal14UniversalPrintINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEvRKT_PSo called 0 returned 0% blocks executed 0%
@@ -900,6 +926,8 @@ function _ZN7testing8internal14UniversalPrintINSt7__cxx1112basic_stringIcSt11cha
 call    0 never executed
 call    1 never executed
 call    2 never executed
+call    3 never executed
+call    4 never executed
     #####:  857:}
         -:  858:
         -:  859:typedef ::std::vector<string> Strings;
@@ -1023,6 +1051,8 @@ call    2 never executed
         -:  977:}  // namespace internal
         -:  978:
         -:  979:template <typename T>
+function _ZN7testing13PrintToStringIaEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_ called 0 returned 0% blocks executed 0%
+function _ZN7testing13PrintToStringIbEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_ called 0 returned 0% blocks executed 0%
 function _ZN7testing13PrintToStringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEES6_RKT_ called 0 returned 0% blocks executed 0%
 function _ZN7testing13PrintToStringItEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_ called 0 returned 0% blocks executed 0%
 function _ZN7testing13PrintToStringIhEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKT_ called 0 returned 0% blocks executed 0%
@@ -1046,6 +1076,18 @@ branch 14 never executed
 branch 15 never executed
 call   16 never executed
 call   17 never executed
+call   18 never executed
+call   19 never executed
+branch 20 never executed
+branch 21 never executed
+call   22 never executed
+call   23 never executed
+call   24 never executed
+call   25 never executed
+branch 26 never executed
+branch 27 never executed
+call   28 never executed
+call   29 never executed
     #####:  982:  internal::UniversalTersePrinter<T>::Print(value, &ss);
 call    0 never executed
 branch  1 never executed
@@ -1056,6 +1098,12 @@ branch  5 never executed
 call    6 never executed
 branch  7 never executed
 branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
     #####:  983:  return ss.str();
 call    0 never executed
 branch  1 never executed
@@ -1066,6 +1114,12 @@ branch  5 never executed
 call    6 never executed
 branch  7 never executed
 branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
         -:  984:}
         -:  985:
         -:  986:}  // namespace testing

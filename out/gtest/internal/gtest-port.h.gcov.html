@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-10-25 14:29:51</td>
+            <td class="headerValue">2019-10-26 01:25:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -1179,7 +1179,7 @@
 <span class="lineNum">    1117 </span>            :   typedef T element_type;
 <a name="1118"><span class="lineNum">    1118 </span>            : </a>
 <span class="lineNum">    1119 </span>            :   explicit scoped_ptr(T* p = NULL) : ptr_(p) {}
-<span class="lineNum">    1120 </span><span class="lineCov">         47 :   ~scoped_ptr() { reset(); }</span>
+<span class="lineNum">    1120 </span><span class="lineCov">       1194 :   ~scoped_ptr() { reset(); }</span>
 <a name="1121"><span class="lineNum">    1121 </span>            : </a>
 <a name="1122"><span class="lineNum">    1122 </span>            :   T&amp; operator*() const { return *ptr_; }</a>
 <span class="lineNum">    1123 </span><span class="lineNoCov">          0 :   T* operator-&gt;() const { return ptr_; }</span>
@@ -1191,14 +1191,14 @@
 <span class="lineNum">    1129 </span>            :     return ptr;
 <a name="1130"><span class="lineNum">    1130 </span>            :   }</a>
 <span class="lineNum">    1131 </span>            : 
-<span class="lineNum">    1132 </span><span class="lineCov">         47 :   void reset(T* p = NULL) {</span>
-<span class="lineNum">    1133 </span><span class="lineCov">         47 :     if (p != ptr_) {</span>
-<span class="lineNum">    1134 </span><span class="lineCov">         43 :       if (IsTrue(sizeof(T) &gt; 0)) {  // Makes sure T is a complete type.</span>
-<span class="lineNum">    1135 </span><span class="lineCov">         43 :         delete ptr_;</span>
+<span class="lineNum">    1132 </span><span class="lineCov">       1194 :   void reset(T* p = NULL) {</span>
+<span class="lineNum">    1133 </span><span class="lineCov">       1194 :     if (p != ptr_) {</span>
+<span class="lineNum">    1134 </span><span class="lineCov">        936 :       if (IsTrue(sizeof(T) &gt; 0)) {  // Makes sure T is a complete type.</span>
+<span class="lineNum">    1135 </span><span class="lineCov">        936 :         delete ptr_;</span>
 <span class="lineNum">    1136 </span>            :       }
-<span class="lineNum">    1137 </span><span class="lineCov">         43 :       ptr_ = p;</span>
+<span class="lineNum">    1137 </span><span class="lineCov">        936 :       ptr_ = p;</span>
 <span class="lineNum">    1138 </span>            :     }
-<span class="lineNum">    1139 </span><span class="lineCov">         47 :   }</span>
+<span class="lineNum">    1139 </span><span class="lineCov">       1194 :   }</span>
 <span class="lineNum">    1140 </span>            : 
 <span class="lineNum">    1141 </span>            :   friend void swap(scoped_ptr&amp; a, scoped_ptr&amp; b) {
 <span class="lineNum">    1142 </span>            :     using std::swap;

@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// Генератор входных данных
 void genMessages(Message *mes, size_t size) {
   char *buf = new char[4];
   for (size_t i = 0; i < size; i++) {
@@ -33,7 +34,6 @@ class MyEnvironment : public ::testing::Environment {
 public:
   virtual ~MyEnvironment() {}
 
-  // Override this to define how to set up the environment.
   virtual void SetUp() override {
     library = dlopen("libdn_lib.so", RTLD_LAZY);
     imports = (exportVtable *)(dlsym(library, "exports"));
@@ -48,43 +48,39 @@ public:
     period[1].year = 100;
 
     max_size = 1000000;
-      mes = new Message[max_size];
+    mes = new Message[max_size];
 
-      genMessages(mes, max_size);
+    genMessages(mes, max_size);
   }
 
   virtual void TearDown() override {
     dlclose(library);
-      for (size_t i = 0; i < max_size; i++) {
-          delete[] mes[i].user_name;
-      }
+    for (size_t i = 0; i < max_size; i++) {
+      delete[] mes[i].user_name;
+    }
     imports = NULL;
-      delete[] mes;
+    free(s_res);
+    free(d_res);
+    delete[] mes;
     delete[] period;
-    delete[] s_res;
-    delete[] d_res;
-
   }
 
   static Message *mes;
-    static size_t max_size;
-    static size_t min_size;
+  static size_t max_size;
   static Date *period;
   static void *library;
-    static Dict *s_res;
-    static Dict *d_res;
+  static Dict *s_res;
+  static Dict *d_res;
   static exportVtable *imports;
 };
 
 Message *MyEnvironment::mes;
 size_t MyEnvironment::max_size;
-size_t MyEnvironment::min_size;
 void *MyEnvironment::library;
 exportVtable *MyEnvironment::imports;
 Date *MyEnvironment::period;
 Dict *MyEnvironment::s_res;
 Dict *MyEnvironment::d_res;
-
 
 TEST(Message, toDictElem) {
   Message *mes = new Message{{1, 1, 1}};
@@ -103,6 +99,22 @@ TEST(Message, toDictElem) {
 
   delete mes;
   delete dict;
+}
+
+TEST(Message, wrong_input) {
+    ASSERT_EXIT((getMessage(NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((getDate(NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((cmpDictMen(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((cmpDictEq(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((cmpDateMen(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((cmpDateEq(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((swapDict(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((inPeriod(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((inRecievers(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+}
+
+TEST(sort, wrong_input) {
+    ASSERT_EXIT((sort(NULL, 0, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
 }
 
 TEST(Message, cmpDictMen) {
@@ -196,13 +208,8 @@ TEST(sort, heap) {
   bool flag = true;
 
   for (size_t i = 0; i < size - 1 && flag; i++) {
-    if (cmpDictMen(dict + i + 1, dict + i) ||
-        cmpDictEq(dict + i + 1, dict + i)) {
+    if (!cmpDictMen(dict + i, dict + i + 1) && !cmpDictEq(dict + i, dict + i + 1)) {
       flag = false;
-      printf("%hhu, %hhu, %hu - ", dict[i].date.day, dict[i].date.mounth,
-             dict[i].date.year);
-      printf("%hhu, %hhu, %hu\n", dict[i + 1].date.day, dict[i + 1].date.mounth,
-             dict[i + 1].date.year);
     }
   }
 
@@ -211,54 +218,67 @@ TEST(sort, heap) {
   delete[] dict;
 }
 
-// данных больше, чем ядер
-TEST(findMessages, stat) {
-    size_t size = MyEnvironment::max_size;
-    Message *mes = MyEnvironment::mes;
-
-    char *user = new char[2];
-    strcpy(user, "B");
-
-    Dict *s_res = run(&size, mes, user, MyEnvironment::period);
-
-    delete[] user;
-
-    bool flag = true;
-
-    EXPECT_EQ(flag, true);
-
-    MyEnvironment::s_res = s_res;
+TEST(findMessages, wrong_input) {
+    ASSERT_EXIT((run(NULL, NULL, NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+    ASSERT_EXIT((MyEnvironment::imports->findMessage(NULL, NULL, NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
 }
 
-TEST(findMessages, dyn) {
-    size_t size = MyEnvironment::max_size;
-    Message *mes = MyEnvironment::mes;
+TEST(findMessages, stat) {
+  size_t size = MyEnvironment::max_size;
+  Message *mes = MyEnvironment::mes;
 
   char *user = new char[2];
   strcpy(user, "B");
 
-  Dict *d_res = MyEnvironment::imports->findMessages(&size, mes, user,
-                                                     MyEnvironment::period);
-
-  delete[] user;
+  Dict *s_res = run(&size, mes, user, MyEnvironment::period);
 
   bool flag = true;
+    for (size_t i = 0; i < size - 1 && flag; i++) {
+        if (!cmpDictMen(s_res + i, s_res + i + 1) && !cmpDictEq(s_res + i, s_res + i + 1)) {
+            flag = false;
+        }
+    }
+
+  EXPECT_EQ(flag, true);
+
+  MyEnvironment::s_res = s_res;
+    delete[] user;
+}
+
+TEST(findMessages, dyn) {
+  size_t size = MyEnvironment::max_size;
+  Message *mes = MyEnvironment::mes;
+
+  char *user = new char[2];
+  strcpy(user, "B");
+
+  Dict *d_res = MyEnvironment::imports->findMessage(&size, mes, user,
+                                                     MyEnvironment::period);
+
+  bool flag = true;
+    for (size_t i = 0; i < size - 1 && flag; i++) {
+        if (!cmpDictMen(d_res + i, d_res + i + 1) &&
+            !cmpDictEq(d_res + i, d_res + i + 1)) {
+            flag = false;
+        }
+    }
 
   EXPECT_EQ(flag, true);
 
   MyEnvironment::d_res = d_res;
+    delete[] user;
 }
 
 TEST(findMessages, cmp_dyn_stat) {
-    bool flag = true;
-    size_t size = MyEnvironment::max_size;
-    for (size_t i = 0; i < size && flag; i++) {
-        if (!cmpDictEq(MyEnvironment::s_res + i, MyEnvironment::d_res + i)) {
-          flag = false;
-        }
+  bool flag = true;
+  size_t size = MyEnvironment::max_size;
+  for (size_t i = 0; i < size && flag; i++) {
+    if (!cmpDictEq(MyEnvironment::s_res + i, MyEnvironment::d_res + i)) {
+      flag = false;
     }
+  }
 
-    EXPECT_EQ(flag, true);
+  EXPECT_EQ(flag, true);
 }
 
 int main(int argc, char **argv) {

@@ -11,7 +11,9 @@
 extern size_t SIZE_DATE;
 extern size_t SIZE_MESSAGE;
 extern size_t SIZE_DICT;
+extern size_t SIZE_SIZE_T;
 
+// поиск сообщений пользователя в промежутке времени и сортировка по дате одним процессом
 Dict *findMessages(size_t *const message_count, const Message *const messages,
                    const char *const user, const Date *const period,
                    bool (*cmp)(const Dict *const, const Dict *const)) {
@@ -47,16 +49,14 @@ Dict *findMessages(size_t *const message_count, const Message *const messages,
   return dict;
 }
 
-//TODO проверить параметры
+// чтение из pipe в массив
 Dict *readFromPipe(int *const fd, const size_t cores, size_t *const start,
                    size_t *const cur_size) {
   // считывание первого непустого Pipe
   do {
-    read(fd[2 * (*start)], cur_size, sizeof(size_t));
+        read(fd[2 * (*start)], cur_size, SIZE_SIZE_T);
     (*start)++;
-    if ((*cur_size) == 0) {
-      close(fd[2 * (*start)]);
-    } else {
+    if ((*cur_size) != 0) {
       break;
     }
   } while ((*start) < cores);
@@ -64,36 +64,39 @@ Dict *readFromPipe(int *const fd, const size_t cores, size_t *const start,
   // если ничего не найдено создается пустой
   if ((*start) == cores && *cur_size == 0) {
     Dict *res = calloc(1, SIZE_DICT);
-    if (res == NULL)
-      return NULL;
+    if (res == NULL) {
+        return NULL;
+    }
+    *cur_size = 1;
     strcpy(res->theme, "Nothing were found");
     return res;
   }
 
   Dict *res = calloc((*cur_size), SIZE_DICT);
-  if (res == NULL)
-    return NULL;
+  if (res == NULL) {
+      return NULL;
+  }
 
   read(fd[2 * (*start - 1)], res, SIZE_DICT * (*cur_size));
-  close(fd[2 * (*start - 1)]);
   return res;
 }
 
+// слияние обработаных кусков от дочерних процессов
 Dict *mergeFromPipe(int *const fd, const size_t cores, size_t *const chunk_len,
                     size_t *const message_count,
                     bool (*cmp)(const Dict *const, const Dict *const)) {
   // чтение первого массива для слияния
   size_t start = 0, cur_size = 0;
   Dict *res = readFromPipe(fd, cores, &start, &cur_size);
-  if (res == NULL)
-    return NULL;
-
+  if (res == NULL) {
+      return NULL;
+  }
   // последовательное слияение всех массивов в один большой
   for (size_t k = start; k < cores; k++) {
     // считывание длины новго массива. Наличие этих данных в pipe гарантировано
     // процессами-потомками
     size_t nw_size = 0;
-    read(fd[2 * k], &nw_size, sizeof(size_t));
+    read(fd[2 * k], &nw_size, SIZE_SIZE_T);
 
     // если массив для слияния не пустой
     if (nw_size) {
@@ -148,14 +151,17 @@ Dict *mergeFromPipe(int *const fd, const size_t cores, size_t *const chunk_len,
       free(tmp);
       res = buf;
     }
-    // закрытие использованного дескриптора
-    close(fd[2 * k]);
+  }
+
+  for( size_t i = 0;  i < cores; i++ ) {
+      close(fd[2 * i]);
   }
 
   *message_count = cur_size;
   return res;
 }
 
+// разбиение массива на куски
 size_t getChunks(size_t *const chunk_len, const size_t cores,
                  const size_t message_count) {
   chunk_len[0] = (message_count) / cores;
@@ -175,23 +181,24 @@ size_t getChunks(size_t *const chunk_len, const size_t cores,
   return cores;
 }
 
+// запуск дочернего процесса для поиска писем пользователя
 bool startChild(int *const fd, size_t *const chunk_len,
                 const Message *const messages, const char *const user,
                 const Date *const period) {
   // обработка куска массива
   Dict *dict = findMessages(chunk_len, messages, user, period, cmpDictMen);
-  if (dict == NULL)
-    return true;
+  if (dict == NULL) {
+      return true;
+  }
   // возврат размера и значений через Pipe родительскому процессу
-  write(*fd, chunk_len, sizeof(size_t));
+  write(*fd, chunk_len, SIZE_SIZE_T);
   if (*chunk_len != 0)
     write(*fd, dict, (*chunk_len) * SIZE_DICT);
-  // закрытие использованного дескриптора
-  close(*fd);
   // освобождение памяти и завершение процесса
   free(dict);
 }
 
+// поиск сообщений пользователя в промежутке времени и сортировка по дате в несколько процессов
 Dict *run(size_t *const message_count, const Message *const messages,
           const char *const user, const Date *const period) {
   if (message_count == 0 || messages == NULL || user == NULL ||
@@ -204,17 +211,17 @@ Dict *run(size_t *const message_count, const Message *const messages,
   if (cores == 0)
     return NULL;
 
-  //иницилизация pipe`ов
-  int fd[2 * cores];
-  for (int i = 0; i < cores; i++) {
-    pipe(&fd[2 * i]);
-  }
-
   // разбиение массива на куски
-  size_t *chunk_len = calloc(cores, sizeof(size_t));
+  size_t *chunk_len = calloc(cores, SIZE_SIZE_T);
   if (chunk_len == 0)
     return NULL;
   const size_t chunks = getChunks(chunk_len, cores, *message_count);
+
+    //иницилизация pipe`ов
+    int fd[2 * cores];
+    for (int i = 0; i < chunks; i++) {
+        pipe(&fd[2 * i]);
+    }
 
   size_t offset = 0;
   // разбиение на процессы
@@ -227,6 +234,9 @@ Dict *run(size_t *const message_count, const Message *const messages,
       // запуск поиска
       bool res = startChild(fd + 2 * i + 1, chunk_len + i, messages + offset,
                             user, period);
+        for( size_t i = 0;  i < chunks; i++ ) {
+            close(fd[i]);
+        }
       if (res) {
         exit(EXIT_FAILURE);
       } else {
@@ -247,7 +257,9 @@ Dict *run(size_t *const message_count, const Message *const messages,
   // Если какой-то из процессов не успел дописать данные в Pipe, родитеский
   // будет заблокирован (см. документацию)
   Dict *res = mergeFromPipe(fd, chunks, chunk_len, message_count, cmpDictMen);
-
+    for( size_t i = 0;  i < chunks; i++ ) {
+        close(fd[2 * i]);
+    }
   // освобожение памяти, возврат результата, проверка состояний процессов
   while (wpid = wait(&status) > 0)
     ;

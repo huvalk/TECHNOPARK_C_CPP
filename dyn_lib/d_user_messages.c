@@ -10,8 +10,14 @@ extern size_t SIZE_DATE;
 extern size_t SIZE_MESSAGE;
 extern size_t SIZE_DICT;
 
-Dict *findMessages(size_t *const message_count, const Message *const messages,
+// поиск сообщений пользователя в промежутке времени и сортировка по дате
+Dict *findMessage(size_t *const message_count, const Message *const messages,
                    char *const user, const Date *const period) {
+    if (message_count == 0 || messages == NULL || user == NULL ||
+        period == NULL) {
+        return NULL;
+    }
+
     size_t cap = DEF_ARR_SIZE, size = 0;
     Dict *dict = calloc(cap, SIZE_DICT);
     if (dict == NULL)
@@ -33,15 +39,29 @@ Dict *findMessages(size_t *const message_count, const Message *const messages,
             toDictElem((messages + i), (dict + size));
             size++;
         } else if (flag == -1) {
+            free(dict);
             return NULL;
         }
     }
 
-    if (sort(dict, size, cmpDictMen) == false)
+    if(size == 0){
+        free(dict);
+        Dict *res = calloc(1, SIZE_DICT);
+        if (res == NULL) {
+            return NULL;
+        }
+        strcpy(res->theme, "Nothing were found");
+        *message_count = 1;
+        return res;
+    }
+
+    if (sort(dict, size, cmpDictMen) == false) {
+        free(dict);
         return NULL;
+    }
 
     *message_count = size;
     return dict;
 }
 
-struct exportVtable exports = {*findMessages};
+struct exportVtable exports = {*findMessage};

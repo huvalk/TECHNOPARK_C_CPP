@@ -1,108 +1,185 @@
         -:    0:Source:/home/huvalk/CLionProjects/TECHNOPARK/C_CPP/IZ_2/tests_gtest.cpp
         -:    0:Graph:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcno
         -:    0:Data:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcda
-        -:    0:Runs:1
+        -:    0:Runs:18
         -:    0:Programs:1
         -:    1:#include "include_cpp/cpp_d_user_messages.h"
         -:    2:#include "include_cpp/cpp_s_user_messages.h"
         -:    3:#include "gtest/gtest.h"
-        -:    4:#include <dlfcn.h>
-        -:    5:
-        -:    6:using namespace std;
+        -:    4:#include <cstdlib>
+        -:    5:#include <dlfcn.h>
+        -:    6:#include <fstream>
         -:    7:
-        -:    8://std::istream& operator>> (std::istream &in, Message &mes)
-        -:    9://{
-        -:   10://    in >> mes.date;
-        -:   11://    in >> mes.type;
-        -:   12://    in >> mes.sum;
-        -:   13://    in >> mes.date.day;
-        -:   14://    in >> mes.date.mounth;
-        -:   15://    in >> mes.date.year;
-        -:   16://    return in;
-        -:   17://}
-        -:   18:
-function _ZN13MyEnvironmentC2Ev called 1 returned 100% blocks executed 100%
-        1:   19:class MyEnvironment : public ::testing::Environment {
-call    0 returned 1
-        -:   20:public:
-function _ZN13MyEnvironmentD0Ev called 1 returned 100% blocks executed 100%
-function _ZN13MyEnvironmentD2Ev called 1 returned 100% blocks executed 100%
-        2:   21:  virtual ~MyEnvironment() {}
-call    0 returned 1
-call    1 returned 1
-call    2 returned 1
-        -:   22:
-        -:   23:  // Override this to define how to set up the environment.
-function _ZN13MyEnvironment5SetUpEv called 1 returned 100% blocks executed 100%
-        1:   24:  virtual void SetUp() override {
-        1:   25:    library = dlopen("libdn_lib.so", RTLD_LAZY);
-call    0 returned 1
-        1:   26:    imports = (exportVtable *)(dlsym(library, "exports"));
-call    0 returned 1
-        1:   27:  }
-        -:   28:
-        -:   29:  // Override this to define how to tear down the environment.
-function _ZN13MyEnvironment8TearDownEv called 1 returned 100% blocks executed 100%
-        1:   30:  virtual void TearDown() override {
-        1:   31:    dlclose(library);
-call    0 returned 1
-        1:   32:    imports = NULL;
-        1:   33:  }
-        -:   34:
-        -:   35:  static void *library;
-        -:   36:  static exportVtable *imports;
-        -:   37:};
-        -:   38:
-        -:   39:void *MyEnvironment::library;
-        -:   40:exportVtable *MyEnvironment::imports;
+        -:    8:using namespace std;
+        -:    9:
+function _Z11genMessagesP7Messagem called 18 returned 100% blocks executed 100%
+       18:   10:void genMessages(Message *mes, size_t size) {
+       18:   11:  char *buf = new char[4];
+call    0 returned 18
+   180018:   12:  for (size_t i = 0; i < size; i++) {
+branch  0 taken 180000 (fallthrough)
+branch  1 taken 18
+   180000:   13:    mes[i].date.year = rand() % 10 + 1;
+call    0 returned 180000
+   180000:   14:    mes[i].date.mounth = rand() % 10 + 1;
+call    0 returned 180000
+   180000:   15:    mes[i].date.day = rand() % 10 + 1;
+call    0 returned 180000
+   180000:   16:    buf[0] = '/';
+   180000:   17:    buf[1] = 'B';
+   180000:   18:    buf[2] = '.';
+   180000:   19:    buf[3] = 0;
+   180000:   20:    strcpy(mes[i].recievers, buf);
+   180000:   21:    char *buf_name = new char[DEF_STR_SIZE * 20];
+call    0 returned 180000
+   180000:   22:    char *buf_body = buf_name + DEF_STR_SIZE;
+   180000:   23:    char *buf_theme = buf_name + DEF_STR_SIZE * 16;
+   180000:   24:    strcpy(buf_theme, buf);
+   180000:   25:    mes[i].body = buf_body;
+   180000:   26:    mes[i].theme = buf_theme;
+   180000:   27:    mes[i].user_name = buf_name;
+        -:   28:  }
+       18:   29:  delete[] buf;
+branch  0 taken 18 (fallthrough)
+branch  1 taken 0
+call    2 returned 18
+       18:   30:}
+        -:   31:
+function _ZN13MyEnvironmentC2Ev called 18 returned 100% blocks executed 100%
+       18:   32:class MyEnvironment : public ::testing::Environment {
+call    0 returned 18
+        -:   33:public:
+function _ZN13MyEnvironmentD0Ev called 18 returned 100% blocks executed 100%
+function _ZN13MyEnvironmentD2Ev called 18 returned 100% blocks executed 100%
+       36:   34:  virtual ~MyEnvironment() {}
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+        -:   35:
+        -:   36:  // Override this to define how to set up the environment.
+function _ZN13MyEnvironment5SetUpEv called 18 returned 100% blocks executed 91%
+       18:   37:  virtual void SetUp() override {
+       18:   38:    library = dlopen("libdn_lib.so", RTLD_LAZY);
+call    0 returned 18
+       18:   39:    imports = (exportVtable *)(dlsym(library, "exports"));
+call    0 returned 18
+       18:   40:    srand(unsigned(time(0)));
+call    0 returned 18
+call    1 returned 18
         -:   41:
-function _ZN23Message_toDictElem_TestD0Ev called 1 returned 100% blocks executed 100%
-function _ZN23Message_toDictElem_TestD2Ev called 1 returned 100% blocks executed 100%
-function _ZN23Message_toDictElem_Test8TestBodyEv called 1 returned 100% blocks executed 28%
-function _ZN23Message_toDictElem_TestC2Ev called 1 returned 100% blocks executed 100%
-        5:   42:TEST(Message, toDictElem) {
-call    0 returned 1
-call    1 returned 1
-call    2 returned 1
-call    3 returned 1
-call    4 returned 1
-branch  5 taken 1 (fallthrough)
+       18:   42:    period = new Date[2];
+call    0 returned 18
+       18:   43:    period[0].day = 0;
+       18:   44:    period[0].mounth = 0;
+       18:   45:    period[0].year = 0;
+       18:   46:    period[1].day = 100;
+       18:   47:    period[1].mounth = 100;
+       18:   48:    period[1].year = 100;
+        -:   49:
+       18:   50:    max_size = 10000;
+       18:   51:    min_size = 4;
+       18:   52:    mes = new Message[max_size];
+branch  0 taken 18 (fallthrough)
+branch  1 taken 0
+call    2 never executed
+call    3 returned 18
+        -:   53:
+       18:   54:    genMessages(mes, max_size);
+call    0 returned 18
+       18:   55:  }
+        -:   56:
+function _ZN13MyEnvironment8TearDownEv called 2 returned 100% blocks executed 100%
+        2:   57:  virtual void TearDown() override {
+        2:   58:    dlclose(library);
+call    0 returned 2
+    20002:   59:    for (size_t i = 0; i < max_size; i++) {
+branch  0 taken 20000 (fallthrough)
+branch  1 taken 2
+    20000:   60:      delete[] mes[i].user_name;
+branch  0 taken 20000 (fallthrough)
+branch  1 taken 0
+call    2 returned 20000
+        -:   61:    }
+        2:   62:    imports = NULL;
+        2:   63:    free(s_res);
+        2:   64:    free(d_res);
+        2:   65:    delete[] mes;
+branch  0 taken 2 (fallthrough)
+branch  1 taken 0
+call    2 returned 2
+        2:   66:    delete[] period;
+branch  0 taken 2 (fallthrough)
+branch  1 taken 0
+call    2 returned 2
+        2:   67:  }
+        -:   68:
+        -:   69:  static Message *mes;
+        -:   70:  static size_t max_size;
+        -:   71:  static size_t min_size;
+        -:   72:  static Date *period;
+        -:   73:  static void *library;
+        -:   74:  static Dict *s_res;
+        -:   75:  static Dict *d_res;
+        -:   76:  static exportVtable *imports;
+        -:   77:};
+        -:   78:
+        -:   79:Message *MyEnvironment::mes;
+        -:   80:size_t MyEnvironment::max_size;
+        -:   81:size_t MyEnvironment::min_size;
+        -:   82:void *MyEnvironment::library;
+        -:   83:exportVtable *MyEnvironment::imports;
+        -:   84:Date *MyEnvironment::period;
+        -:   85:Dict *MyEnvironment::s_res;
+        -:   86:Dict *MyEnvironment::d_res;
+        -:   87:
+function _ZN23Message_toDictElem_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN23Message_toDictElem_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN23Message_toDictElem_Test8TestBodyEv called 18 returned 100% blocks executed 29%
+function _ZN23Message_toDictElem_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:   88:TEST(Message, toDictElem) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
 branch  6 taken 0 (throw)
-call    7 returned 1
-branch  8 taken 1 (fallthrough)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
 branch  9 taken 0 (throw)
-call   10 returned 1
-branch 11 taken 1 (fallthrough)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
 branch 12 taken 0 (throw)
-call   13 returned 1
-call   14 returned 1
-call   15 returned 1
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
 call   16 never executed
 call   17 never executed
 call   18 never executed
-call   19 returned 1
-call   20 returned 1
-call   21 returned 1
-call   22 returned 1
-        1:   43:    Message *mes = new Message{{1, 1, 1}};
-call    0 returned 1
-        1:   44:    mes->body = (char *)"b";
-        1:   45:    mes->user_name = (char *)"n";
-        1:   46:    mes->theme = (char *)"t";
-        1:   47:    strcpy(mes->recievers, "/r.");
-        -:   48:
-        1:   49:    Dict* dict = new Dict;
-call    0 returned 1
-        1:   50:    toDictElem(mes, dict);
-call    0 returned 1
-        -:   51:
-        1:   52:    EXPECT_EQ( dict->date.day, mes->date.day );
-call    0 returned 1
-branch  1 taken 1 (fallthrough)
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:   89:  Message *mes = new Message{{1, 1, 1}};
+call    0 returned 18
+       18:   90:  mes->body = (char *)"b";
+       18:   91:  mes->user_name = (char *)"n";
+       18:   92:  mes->theme = (char *)"t";
+       18:   93:  strcpy(mes->recievers, "/r.");
+        -:   94:
+       18:   95:  Dict *dict = new Dict;
+call    0 returned 18
+       18:   96:  toDictElem(mes, dict);
+call    0 returned 18
+        -:   97:
+       18:   98:  EXPECT_EQ(dict->date.day, mes->date.day);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
 branch  2 taken 0 (throw)
-call    3 returned 1
+call    3 returned 18
 branch  4 taken 0 (fallthrough)
-branch  5 taken 1
+branch  5 taken 18
 call    6 never executed
 branch  7 never executed
 branch  8 never executed
@@ -117,18 +194,18 @@ branch 16 never executed
 branch 17 never executed
 call   18 never executed
 call   19 never executed
-call   20 returned 1
+call   20 returned 18
 call   21 never executed
 call   22 never executed
 call   23 never executed
 call   24 never executed
-        1:   53:    EXPECT_EQ( dict->date.mounth, mes->date.mounth );
-call    0 returned 1
-branch  1 taken 1 (fallthrough)
+       18:   99:  EXPECT_EQ(dict->date.mounth, mes->date.mounth);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
 branch  2 taken 0 (throw)
-call    3 returned 1
+call    3 returned 18
 branch  4 taken 0 (fallthrough)
-branch  5 taken 1
+branch  5 taken 18
 call    6 never executed
 branch  7 never executed
 branch  8 never executed
@@ -143,18 +220,18 @@ branch 16 never executed
 branch 17 never executed
 call   18 never executed
 call   19 never executed
-call   20 returned 1
+call   20 returned 18
 call   21 never executed
 call   22 never executed
 call   23 never executed
 call   24 never executed
-        1:   54:    EXPECT_EQ( dict->date.year, mes->date.year );
-call    0 returned 1
-branch  1 taken 1 (fallthrough)
+       18:  100:  EXPECT_EQ(dict->date.year, mes->date.year);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
 branch  2 taken 0 (throw)
-call    3 returned 1
+call    3 returned 18
 branch  4 taken 0 (fallthrough)
-branch  5 taken 1
+branch  5 taken 18
 call    6 never executed
 branch  7 never executed
 branch  8 never executed
@@ -169,31 +246,31 @@ branch 16 never executed
 branch 17 never executed
 call   18 never executed
 call   19 never executed
-call   20 returned 1
+call   20 returned 18
 call   21 never executed
 call   22 never executed
 call   23 never executed
 call   24 never executed
 call   25 never executed
-        1:   55:    EXPECT_EQ( std::string( dict->theme ), std::string( mes->theme ) );
-call    0 returned 1
-call    1 returned 1
-branch  2 taken 1 (fallthrough)
+       18:  101:  EXPECT_EQ(std::string(dict->theme), std::string(mes->theme));
+call    0 returned 18
+call    1 returned 18
+branch  2 taken 18 (fallthrough)
 branch  3 taken 0 (throw)
-call    4 returned 1
-call    5 returned 1
-branch  6 taken 1 (fallthrough)
+call    4 returned 18
+call    5 returned 18
+branch  6 taken 18 (fallthrough)
 branch  7 taken 0 (throw)
-call    8 returned 1
-branch  9 taken 1 (fallthrough)
+call    8 returned 18
+branch  9 taken 18 (fallthrough)
 branch 10 taken 0 (throw)
-call   11 returned 1
-call   12 returned 1
-call   13 returned 1
-call   14 returned 1
-call   15 returned 1
+call   11 returned 18
+call   12 returned 18
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
 branch 16 taken 0 (fallthrough)
-branch 17 taken 1
+branch 17 taken 18
 call   18 never executed
 branch 19 never executed
 branch 20 never executed
@@ -208,89 +285,986 @@ branch 28 never executed
 branch 29 never executed
 call   30 never executed
 call   31 never executed
-call   32 returned 1
+call   32 returned 18
 call   33 never executed
 call   34 never executed
 call   35 never executed
 call   36 never executed
 call   37 never executed
 call   38 never executed
-        1:   56:}
-        -:   57:
-        -:   58://TEST(Message, cmpDictMen) {
-        -:   59://    Dict *left = new Dict{{1, 2, 1}};
-        -:   60://    strcpy(left->theme, "d");
-        -:   61://    Dict *right = new Dict{{2, 1, 2}};
-        -:   62://    strcpy(right->theme, "f");
-        -:   63://
-        -:   64://
-        -:   65://    EXPECT_EQ( cmpDictMen(left, right), true);
-        -:   66://
-        -:   67://    delete left;
-        -:   68://    delete right;
-        -:   69://}
-        -:   70://
-        -:   71://TEST(Message, cmpDateMen) {
-        -:   72://    Date left = {1, 2, 1};
-        -:   73://    Date right = {2, 1, 2};
-        -:   74://
-        -:   75://    EXPECT_EQ( cmpDateMen(&left, &right), true);
-        -:   76://}
-        -:   77://
-        -:   78://TEST(Message, swapDict) {
-        -:   79://    Dict *left = new Dict{{1, 2, 1}};
-        -:   80://    strcpy(left->theme, "d");
-        -:   81://    Dict *right = new Dict{{2, 1, 2}};
-        -:   82://    strcpy(right->theme, "f");
-        -:   83://    swapDict(left, right);
-        -:   84://
-        -:   85://    EXPECT_EQ( string(left->theme), "f"s);
-        -:   86://    EXPECT_EQ( string(right->theme), "d"s);
-        -:   87://
-        -:   88://    delete left;
-        -:   89://    delete right;
-        -:   90://}
-        -:   91://
-        -:   92://TEST(Message, inPeriod) {
-        -:   93://    Date *dates = new Date[3];
-        -:   94://    dates[0] = {1, 2, 1};
-        -:   95://    dates[1] = {1, 5, 2};
-        -:   96://    Message *mes = new Message{1, 3, 2};
-        -:   97://
-        -:   98://    EXPECT_EQ( inPeriod(dates, mes), true);
-        -:   99://
-        -:  100://    delete[] dates;
-        -:  101://    delete mes;
-        -:  102://}
-        -:  103://
-        -:  104://TEST(Message, inRecievers) {
-        -:  105://    Message *mes = new Message{1, 3, 2};
-        -:  106://    strcpy(mes->recievers, "/af./fa.");
-        -:  107://    char *user= new char[4];
-        -:  108://    strcpy(user, "fa");
-        -:  109://    EXPECT_EQ( inRecievers(user, mes), true);
-        -:  110://    strcpy(user, "f");
-        -:  111://    EXPECT_EQ( inRecievers(user, mes), false);
-        -:  112://
-        -:  113://    delete[] user;
-        -:  114://    delete mes;
-        -:  115://}
-        -:  116:
-function main called 1 returned 100% blocks executed 100%
-        1:  117:int main(int argc, char **argv) {
-        1:  118:  ::testing::InitGoogleTest(&argc, argv);
-call    0 returned 1
-        1:  119:  AddGlobalTestEnvironment(new MyEnvironment);
-call    0 returned 1
-call    1 returned 1
-call    2 returned 1
-        1:  120:  return RUN_ALL_TESTS();
-call    0 returned 1
-function _GLOBAL__sub_I__ZN13MyEnvironment7libraryE called 1 returned 100% blocks executed 100%
-function _Z41__static_initialization_and_destruction_0ii called 1 returned 100% blocks executed 68%
-        3:  121:}
-call    0 returned 1
-branch  1 taken 1 (fallthrough)
+        -:  102:
+       18:  103:  delete mes;
+call    0 returned 18
+       18:  104:  delete dict;
+call    0 returned 18
+       18:  105:}
+        -:  106:
+function _ZN23Message_cmpDictMen_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN23Message_cmpDictMen_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN23Message_cmpDictMen_Test8TestBodyEv called 18 returned 100% blocks executed 37%
+function _ZN23Message_cmpDictMen_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  107:TEST(Message, cmpDictMen) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  108:  Dict *left = new Dict{{1, 2, 1}};
+call    0 returned 18
+       18:  109:  strcpy(left->theme, "d");
+       18:  110:  Dict *right = new Dict{{2, 1, 2}};
+call    0 returned 18
+       18:  111:  strcpy(right->theme, "f");
+        -:  112:
+       18:  113:  EXPECT_EQ(cmpDictMen(left, right), true);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+call    6 returned 18
+branch  7 taken 0 (fallthrough)
+branch  8 taken 18
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+call   22 never executed
+call   23 returned 18
+call   24 never executed
+call   25 never executed
+call   26 never executed
+        -:  114:
+       18:  115:  delete left;
+call    0 returned 18
+       18:  116:  delete right;
+call    0 returned 18
+       18:  117:}
+        -:  118:
+function _ZN23Message_cmpDateMen_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN23Message_cmpDateMen_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN23Message_cmpDateMen_Test8TestBodyEv called 18 returned 100% blocks executed 26%
+function _ZN23Message_cmpDateMen_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  119:TEST(Message, cmpDateMen) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  120:  Date left = {1, 2, 1};
+       18:  121:  Date right = {2, 1, 2};
+        -:  122:
+       18:  123:  EXPECT_EQ(cmpDateMen(&left, &right), true);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+call    6 returned 18
+branch  7 taken 0 (fallthrough)
+branch  8 taken 18
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+call   22 never executed
+call   23 returned 18
+call   24 never executed
+call   25 never executed
+call   26 never executed
+       18:  124:}
+        -:  125:
+function _ZN22Message_cmpDictEq_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN22Message_cmpDictEq_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN22Message_cmpDictEq_Test8TestBodyEv called 18 returned 100% blocks executed 37%
+function _ZN22Message_cmpDictEq_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  126:TEST(Message, cmpDictEq) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  127:  Dict *left = new Dict{{1, 1, 1}};
+call    0 returned 18
+       18:  128:  strcpy(left->theme, "d");
+       18:  129:  Dict *right = new Dict{{1, 1, 1}};
+call    0 returned 18
+       18:  130:  strcpy(right->theme, "f");
+        -:  131:
+       18:  132:  EXPECT_EQ(cmpDictEq(left, right), true);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+call    6 returned 18
+branch  7 taken 0 (fallthrough)
+branch  8 taken 18
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+call   22 never executed
+call   23 returned 18
+call   24 never executed
+call   25 never executed
+call   26 never executed
+        -:  133:
+       18:  134:  delete left;
+call    0 returned 18
+       18:  135:  delete right;
+call    0 returned 18
+       18:  136:}
+        -:  137:
+function _ZN22Message_cmpDateEq_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN22Message_cmpDateEq_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN22Message_cmpDateEq_Test8TestBodyEv called 18 returned 100% blocks executed 26%
+function _ZN22Message_cmpDateEq_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  138:TEST(Message, cmpDateEq) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  139:  Date left = {1, 1, 1};
+       18:  140:  Date right = {1, 1, 1};
+        -:  141:
+       18:  142:  EXPECT_EQ(cmpDateEq(&left, &right), true);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+call    6 returned 18
+branch  7 taken 0 (fallthrough)
+branch  8 taken 18
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+call   22 never executed
+call   23 returned 18
+call   24 never executed
+call   25 never executed
+call   26 never executed
+       18:  143:}
+        -:  144:
+function _ZN21Message_swapDict_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN21Message_swapDict_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN21Message_swapDict_Test8TestBodyEv called 18 returned 100% blocks executed 36%
+function _ZN21Message_swapDict_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  145:TEST(Message, swapDict) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  146:  Dict *left = new Dict{{1, 2, 1}};
+call    0 returned 18
+       18:  147:  strcpy(left->theme, "d");
+       18:  148:  Dict *right = new Dict{{2, 1, 2}};
+call    0 returned 18
+       18:  149:  strcpy(right->theme, "f");
+       18:  150:  swapDict(left, right);
+call    0 returned 18
+        -:  151:
+       18:  152:  EXPECT_EQ(string(left->theme), string("f"));
+call    0 returned 18
+call    1 returned 18
+branch  2 taken 18 (fallthrough)
+branch  3 taken 0 (throw)
+call    4 returned 18
+call    5 returned 18
+branch  6 taken 18 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 18
+branch  9 taken 18 (fallthrough)
+branch 10 taken 0 (throw)
+call   11 returned 18
+call   12 returned 18
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+branch 16 taken 0 (fallthrough)
+branch 17 taken 18
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+branch 22 never executed
+branch 23 never executed
+call   24 never executed
+branch 25 never executed
+branch 26 never executed
+call   27 never executed
+branch 28 never executed
+branch 29 never executed
+call   30 never executed
+call   31 never executed
+call   32 returned 18
+call   33 never executed
+call   34 never executed
+call   35 never executed
+call   36 never executed
+call   37 never executed
+call   38 never executed
+call   39 never executed
+call   40 never executed
+       18:  153:  EXPECT_EQ(string(right->theme), string("d"));
+call    0 returned 18
+call    1 returned 18
+branch  2 taken 18 (fallthrough)
+branch  3 taken 0 (throw)
+call    4 returned 18
+call    5 returned 18
+branch  6 taken 18 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 18
+branch  9 taken 18 (fallthrough)
+branch 10 taken 0 (throw)
+call   11 returned 18
+call   12 returned 18
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+branch 16 taken 0 (fallthrough)
+branch 17 taken 18
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+branch 22 never executed
+branch 23 never executed
+call   24 never executed
+branch 25 never executed
+branch 26 never executed
+call   27 never executed
+branch 28 never executed
+branch 29 never executed
+call   30 never executed
+call   31 never executed
+call   32 returned 18
+call   33 never executed
+call   34 never executed
+call   35 never executed
+call   36 never executed
+call   37 never executed
+call   38 never executed
+        -:  154:
+       18:  155:  delete left;
+call    0 returned 18
+       18:  156:  delete right;
+call    0 returned 18
+       18:  157:}
+call    0 never executed
+        -:  158:
+function _ZN21Message_inPeriod_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN21Message_inPeriod_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN21Message_inPeriod_Test8TestBodyEv called 18 returned 100% blocks executed 39%
+function _ZN21Message_inPeriod_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  159:TEST(Message, inPeriod) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  160:  Date *dates = new Date[3];
+call    0 returned 18
+       18:  161:  dates[0] = {1, 2, 1};
+       18:  162:  dates[1] = {1, 5, 2};
+       18:  163:  Message *mes = new Message{1, 3, 2};
+call    0 returned 18
+        -:  164:
+       18:  165:  EXPECT_EQ(inPeriod(dates, mes), true);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+call    6 returned 18
+branch  7 taken 0 (fallthrough)
+branch  8 taken 18
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+call   22 never executed
+call   23 returned 18
+call   24 never executed
+call   25 never executed
+call   26 never executed
+        -:  166:
+       18:  167:  delete[] dates;
+branch  0 taken 18 (fallthrough)
+branch  1 taken 0
+call    2 returned 18
+       18:  168:  delete mes;
+call    0 returned 18
+       18:  169:}
+        -:  170:
+function _ZN24Message_inRecievers_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN24Message_inRecievers_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN24Message_inRecievers_Test8TestBodyEv called 18 returned 100% blocks executed 30%
+function _ZN24Message_inRecievers_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  171:TEST(Message, inRecievers) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  172:  Message *mes = new Message{1, 3, 2};
+call    0 returned 18
+       18:  173:  strcpy(mes->recievers, "/af./fa.");
+       18:  174:  char *user = new char[4];
+call    0 returned 18
+       18:  175:  strcpy(user, "fa");
+       18:  176:  EXPECT_EQ(inRecievers(user, mes), true);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+call    6 returned 18
+branch  7 taken 0 (fallthrough)
+branch  8 taken 18
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+call   22 never executed
+call   23 returned 18
+call   24 never executed
+call   25 never executed
+call   26 never executed
+call   27 never executed
+       18:  177:  strcpy(user, "f");
+       18:  178:  EXPECT_EQ(inRecievers(user, mes), false);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+call    6 returned 18
+branch  7 taken 0 (fallthrough)
+branch  8 taken 18
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+call   22 never executed
+call   23 returned 18
+call   24 never executed
+call   25 never executed
+call   26 never executed
+        -:  179:
+       18:  180:  delete[] user;
+branch  0 taken 18 (fallthrough)
+branch  1 taken 0
+call    2 returned 18
+       18:  181:  delete mes;
+call    0 returned 18
+       18:  182:}
+        -:  183:
+function _ZN14sort_heap_TestD0Ev called 18 returned 100% blocks executed 100%
+function _ZN14sort_heap_TestD2Ev called 18 returned 100% blocks executed 100%
+function _ZN14sort_heap_Test8TestBodyEv called 18 returned 100% blocks executed 53%
+function _ZN14sort_heap_TestC2Ev called 18 returned 100% blocks executed 100%
+       90:  184:TEST(sort, heap) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+       18:  185:  size_t size = 10;
+       18:  186:  Dict *dict = new Dict[size];
+branch  0 taken 18 (fallthrough)
+branch  1 taken 0
+call    2 never executed
+call    3 returned 18
+branch  4 taken 18 (fallthrough)
+branch  5 taken 0 (throw)
+      198:  187:  for (size_t i = 0; i < size; i++) {
+branch  0 taken 180 (fallthrough)
+branch  1 taken 18
+      180:  188:    dict[i].date.year = rand() % 10;
+call    0 returned 180
+      180:  189:    dict[i].date.mounth = rand() % 10;
+call    0 returned 180
+      180:  190:    dict[i].date.day = rand() % 10;
+call    0 returned 180
+        -:  191:  }
+        -:  192:
+       18:  193:  sort(dict, size, cmpDictMen);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  194:
+       18:  195:  bool flag = true;
+        -:  196:
+      180:  197:  for (size_t i = 0; i < size - 1 && flag; i++) {
+branch  0 taken 162 (fallthrough)
+branch  1 taken 18
+branch  2 taken 162 (fallthrough)
+branch  3 taken 0
+      162:  198:    if (!cmpDictMen(dict + i, dict + i + 1) && !cmpDictEq(dict + i, dict + i + 1)) {
+call    0 returned 162
+branch  1 taken 162 (fallthrough)
+branch  2 taken 0 (throw)
+branch  3 taken 0 (fallthrough)
+branch  4 taken 162
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+branch  8 never executed
+branch  9 never executed
+branch 10 taken 0 (fallthrough)
+branch 11 taken 162
+    #####:  199:      flag = false;
+        -:  200:    }
+        -:  201:  }
+        -:  202:
+       18:  203:  EXPECT_EQ(flag, true);
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 18
+branch  4 taken 0 (fallthrough)
+branch  5 taken 18
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 18
+call   21 never executed
+call   22 never executed
+call   23 never executed
+        -:  204:
+       18:  205:  delete[] dict;
+branch  0 taken 18 (fallthrough)
+branch  1 taken 0
+call    2 returned 18
+       18:  206:}
+        -:  207:
+        -:  208:// данных больше, чем ядер
+function _ZN22findMessages_stat_TestD0Ev called 2 returned 100% blocks executed 100%
+function _ZN22findMessages_stat_TestD2Ev called 2 returned 100% blocks executed 100%
+function _ZN22findMessages_stat_Test8TestBodyEv called 18 returned 11% blocks executed 45%
+function _ZN22findMessages_stat_TestC2Ev called 18 returned 100% blocks executed 100%
+       58:  209:TEST(findMessages, stat) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 2
+call   21 returned 2
+call   22 returned 2
+call   23 returned 18
+       18:  210:  size_t size = MyEnvironment::max_size;
+       18:  211:  Message *mes = MyEnvironment::mes;
+        -:  212:
+       18:  213:  char *user = new char[2];
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
+branch  2 taken 0 (throw)
+       18:  214:  strcpy(user, "B");
+        -:  215:
+       18:  216:  Dict *s_res = run(&size, mes, user, MyEnvironment::period);
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  217:
+        2:  218:  bool flag = true;
+    20000:  219:    for (size_t i = 0; i < size - 1 && flag; i++) {
+branch  0 taken 19998 (fallthrough)
+branch  1 taken 2
+branch  2 taken 19998 (fallthrough)
+branch  3 taken 0
+    19998:  220:        if (!cmpDictMen(s_res + i, s_res + i + 1) && !cmpDictEq(s_res + i, s_res + i + 1)) {
+call    0 returned 19998
+branch  1 taken 19998 (fallthrough)
+branch  2 taken 0 (throw)
+branch  3 taken 0 (fallthrough)
+branch  4 taken 19998
+call    5 never executed
+branch  6 never executed
+branch  7 never executed
+branch  8 never executed
+branch  9 never executed
+branch 10 taken 0 (fallthrough)
+branch 11 taken 19998
+    #####:  221:            flag = false;
+        -:  222:        }
+        -:  223:    }
+        -:  224:
+        2:  225:  EXPECT_EQ(flag, true);
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 2
+branch  4 taken 0 (fallthrough)
+branch  5 taken 2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 2
+call   21 never executed
+call   22 never executed
+call   23 never executed
+        -:  226:
+        2:  227:  MyEnvironment::s_res = s_res;
+        2:  228:    delete[] user;
+branch  0 taken 2 (fallthrough)
+branch  1 taken 0
+call    2 returned 2
+        2:  229:}
+        -:  230:
+function _ZN21findMessages_dyn_TestD0Ev called 2 returned 100% blocks executed 100%
+function _ZN21findMessages_dyn_TestD2Ev called 2 returned 100% blocks executed 100%
+function _ZN21findMessages_dyn_Test8TestBodyEv called 2 returned 100% blocks executed 45%
+function _ZN21findMessages_dyn_TestC2Ev called 2 returned 100% blocks executed 100%
+       26:  231:TEST(findMessages, dyn) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 2
+call   21 returned 2
+call   22 returned 2
+call   23 returned 2
+        2:  232:  size_t size = MyEnvironment::max_size;
+        2:  233:  Message *mes = MyEnvironment::mes;
+        -:  234:
+        2:  235:  char *user = new char[2];
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        2:  236:  strcpy(user, "B");
+        -:  237:
+        2:  238:  Dict *d_res = MyEnvironment::imports->findMessage(&size, mes, user,
+        2:  239:                                                     MyEnvironment::period);
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+        -:  240:
+        2:  241:  bool flag = true;
+    20000:  242:    for (size_t i = 0; i < size - 1 && flag; i++) {
+branch  0 taken 19998 (fallthrough)
+branch  1 taken 2
+branch  2 taken 19998 (fallthrough)
+branch  3 taken 0
+    19998:  243:        if (!cmpDictMen(d_res + i, d_res + i + 1) &&
+call    0 returned 19998
+branch  1 taken 19998 (fallthrough)
+branch  2 taken 0 (throw)
+branch  3 taken 0 (fallthrough)
+branch  4 taken 19998
+branch  5 never executed
+branch  6 never executed
+branch  7 taken 0 (fallthrough)
+branch  8 taken 19998
+    #####:  244:            !cmpDictEq(d_res + i, d_res + i + 1)) {
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  245:            flag = false;
+        -:  246:        }
+        -:  247:    }
+        -:  248:
+        2:  249:  EXPECT_EQ(flag, true);
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 2
+branch  4 taken 0 (fallthrough)
+branch  5 taken 2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 2
+call   21 never executed
+call   22 never executed
+call   23 never executed
+        -:  250:
+        2:  251:  MyEnvironment::d_res = d_res;
+        2:  252:    delete[] user;
+branch  0 taken 2 (fallthrough)
+branch  1 taken 0
+call    2 returned 2
+        2:  253:}
+        -:  254:
+function _ZN30findMessages_cmp_dyn_stat_TestD0Ev called 2 returned 100% blocks executed 100%
+function _ZN30findMessages_cmp_dyn_stat_TestD2Ev called 2 returned 100% blocks executed 100%
+function _ZN30findMessages_cmp_dyn_stat_Test8TestBodyEv called 2 returned 100% blocks executed 39%
+function _ZN30findMessages_cmp_dyn_stat_TestC2Ev called 2 returned 100% blocks executed 100%
+       26:  255:TEST(findMessages, cmp_dyn_stat) {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+branch  5 taken 18 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 18
+branch  8 taken 18 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 18
+branch 11 taken 18 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 returned 2
+call   20 returned 2
+call   21 returned 2
+call   22 returned 2
+        2:  256:  bool flag = true;
+        2:  257:  size_t size = MyEnvironment::max_size;
+    20002:  258:  for (size_t i = 0; i < size && flag; i++) {
+branch  0 taken 20000 (fallthrough)
+branch  1 taken 2
+branch  2 taken 20000 (fallthrough)
+branch  3 taken 0
+    20000:  259:    if (!cmpDictEq(MyEnvironment::s_res + i, MyEnvironment::d_res + i)) {
+call    0 returned 20000
+branch  1 taken 20000 (fallthrough)
+branch  2 taken 0 (throw)
+branch  3 taken 0 (fallthrough)
+branch  4 taken 20000
+    #####:  260:      flag = false;
+        -:  261:    }
+        -:  262:  }
+        -:  263:
+        2:  264:  EXPECT_EQ(flag, true);
+call    0 returned 2
+branch  1 taken 2 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 2
+branch  4 taken 0 (fallthrough)
+branch  5 taken 2
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 2
+call   21 never executed
+call   22 never executed
+call   23 never executed
+        2:  265:}
+        -:  266:
+function main called 18 returned 11% blocks executed 100%
+       18:  267:int main(int argc, char **argv) {
+       18:  268:  ::testing::InitGoogleTest(&argc, argv);
+call    0 returned 18
+       18:  269:  AddGlobalTestEnvironment(new MyEnvironment);
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+       18:  270:  return RUN_ALL_TESTS();
+call    0 returned 2
+function _GLOBAL__sub_I__Z11genMessagesP7Messagem called 18 returned 100% blocks executed 100%
+function _Z41__static_initialization_and_destruction_0ii called 18 returned 100% blocks executed 54%
+       54:  271:}
+call    0 returned 18
+branch  1 taken 18 (fallthrough)
 branch  2 taken 0
-branch  3 taken 1 (fallthrough)
+branch  3 taken 18 (fallthrough)
 branch  4 taken 0

@@ -18,6 +18,7 @@ env:
 install:
   - sudo apt-get install cppcheck
   - sudo apt-get -qq update
+  - sudo apt-get install lcov
   - sudo apt-get install -y libgtest-dev valgrind cmake
   - sudo wget https://github.com/google/googletest/archive/release-1.7.0.tar.gz
   - sudo tar xf release-1.7.0.tar.gz
@@ -35,4 +36,8 @@ script:
   - cd build
   - cmake ../
   - make tests_gtest
-  - valgrind ./tests_gtest
+  - valgrind --trace-children=yes ./tests_gtest
+  - cd ..
+  - gcov -b -c cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.cpp
+  - lcov --capture --directory cmake-build-debug/CMakeFiles/tests_gtest.dir/ --output-file coverage.info
+  - genhtml coverage.info --output-directory out

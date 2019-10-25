@@ -1,7 +1,7 @@
         -:    0:Source:/usr/include/gtest/gtest.h
         -:    0:Graph:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcno
         -:    0:Data:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcda
-        -:    0:Runs:1
+        -:    0:Runs:18
         -:    0:Programs:1
         -:    1:// Copyright 2005, Google Inc.
         -:    2:// All rights reserved.
@@ -258,9 +258,9 @@
         -:  253://   Expected: Foo() is even
         -:  254://     Actual: it's 5
         -:  255://
-function _ZN7testing15AssertionResultD2Ev called 4 returned 100% blocks executed 100%
-        4:  256:class GTEST_API_ AssertionResult {
-call    0 returned 4
+function _ZN7testing15AssertionResultD2Ev called 258 returned 100% blocks executed 100%
+      258:  256:class GTEST_API_ AssertionResult {
+call    0 returned 258
         -:  257: public:
         -:  258:  // Copy constructor.
         -:  259:  // Used in EXPECT_TRUE/FALSE(assertion_result).
@@ -292,8 +292,8 @@ call    0 returned 4
         -:  285:  }
         -:  286:
         -:  287:  // Returns true iff the assertion succeeded.
-function _ZNK7testing15AssertionResultcvbEv called 4 returned 100% blocks executed 100%
-        4:  288:  operator bool() const { return success_; }  // NOLINT
+function _ZNK7testing15AssertionResultcvbEv called 258 returned 100% blocks executed 100%
+      258:  288:  operator bool() const { return success_; }  // NOLINT
         -:  289:
         -:  290:  // Returns the assertion's negation. Used with EXPECT/ASSERT_FALSE.
         -:  291:  AssertionResult operator!() const;
@@ -402,8 +402,8 @@ call    0 never executed
         -:  386:  // test in test case Foo.  Hence a sub-class can define its own
         -:  387:  // SetUpTestCase() method to shadow the one defined in the super
         -:  388:  // class.
-function _ZN7testing4Test13SetUpTestCaseEv called 1 returned 100% blocks executed 100%
-        1:  389:  static void SetUpTestCase() {}
+function _ZN7testing4Test13SetUpTestCaseEv called 54 returned 100% blocks executed 100%
+       54:  389:  static void SetUpTestCase() {}
         -:  390:
         -:  391:  // Tears down the stuff shared by all tests in this test case.
         -:  392:  //
@@ -411,8 +411,8 @@ function _ZN7testing4Test13SetUpTestCaseEv called 1 returned 100% blocks execute
         -:  394:  // test in test case Foo.  Hence a sub-class can define its own
         -:  395:  // TearDownTestCase() method to shadow the one defined in the super
         -:  396:  // class.
-function _ZN7testing4Test16TearDownTestCaseEv called 1 returned 100% blocks executed 100%
-        1:  397:  static void TearDownTestCase() {}
+function _ZN7testing4Test16TearDownTestCaseEv called 38 returned 100% blocks executed 100%
+       38:  397:  static void TearDownTestCase() {}
         -:  398:
         -:  399:  // Returns true iff the current test has a fatal failure.
         -:  400:  static bool HasFatalFailure();
@@ -988,13 +988,13 @@ function _ZN7testing4Test5SetupEv called 0 returned 0% blocks executed 0%
         -:  969://      available.
         -:  970://   2. You cannot use ASSERT_* directly in a constructor or
         -:  971://      destructor.
-function _ZN7testing11EnvironmentC2Ev called 1 returned 100% blocks executed 100%
-        1:  972:class Environment {
+function _ZN7testing11EnvironmentC2Ev called 18 returned 100% blocks executed 100%
+       18:  972:class Environment {
         -:  973: public:
         -:  974:  // The d'tor is virtual as we need to subclass Environment.
 function _ZN7testing11EnvironmentD0Ev called 0 returned 0% blocks executed 0%
-function _ZN7testing11EnvironmentD2Ev called 1 returned 100% blocks executed 100%
-        1:  975:  virtual ~Environment() {}
+function _ZN7testing11EnvironmentD2Ev called 18 returned 100% blocks executed 100%
+       18:  975:  virtual ~Environment() {}
 call    0 never executed
 call    1 never executed
         -:  976:
@@ -1374,11 +1374,11 @@ function _ZN7testing11Environment5SetupEv called 0 returned 0% blocks executed 0
         -: 1347:// translation units and the environments have dependencies among them
         -: 1348:// (remember that the compiler doesn't guarantee the order in which
         -: 1349:// global variables from different translation units are initialized).
-function _ZN7testing24AddGlobalTestEnvironmentEPNS_11EnvironmentE called 1 returned 100% blocks executed 100%
-        1: 1350:inline Environment* AddGlobalTestEnvironment(Environment* env) {
-        1: 1351:  return UnitTest::GetInstance()->AddEnvironment(env);
-call    0 returned 1
-call    1 returned 1
+function _ZN7testing24AddGlobalTestEnvironmentEPNS_11EnvironmentE called 18 returned 100% blocks executed 100%
+       18: 1350:inline Environment* AddGlobalTestEnvironment(Environment* env) {
+       18: 1351:  return UnitTest::GetInstance()->AddEnvironment(env);
+call    0 returned 18
+call    1 returned 18
         -: 1352:}
         -: 1353:
         -: 1354:// Initializes Google Test.  This must be called before calling
@@ -1402,6 +1402,8 @@ call    1 returned 1
         -: 1372:// frame size of CmpHelperEQ. This helps reduce the overhead of some sanitizers
         -: 1373:// when calling EXPECT_* in a tight loop.
         -: 1374:template <typename T1, typename T2>
+function _ZN7testing8internal18CmpHelperEQFailureIabEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 0 returned 0% blocks executed 0%
+function _ZN7testing8internal18CmpHelperEQFailureIbbEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal18CmpHelperEQFailureINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_EENS_15AssertionResultEPKcSA_RKT_RKT0_ called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal18CmpHelperEQFailureIttEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 0 returned 0% blocks executed 0%
 function _ZN7testing8internal18CmpHelperEQFailureIhhEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 0 returned 0% blocks executed 0%
@@ -1446,30 +1448,60 @@ call   29 never executed
 call   30 never executed
 call   31 never executed
 call   32 never executed
+call   33 never executed
+call   34 never executed
+branch 35 never executed
+branch 36 never executed
+call   37 never executed
+branch 38 never executed
+branch 39 never executed
+call   40 never executed
+call   41 never executed
+call   42 never executed
+call   43 never executed
+call   44 never executed
+call   45 never executed
+branch 46 never executed
+branch 47 never executed
+call   48 never executed
+branch 49 never executed
+branch 50 never executed
+call   51 never executed
+call   52 never executed
+call   53 never executed
+call   54 never executed
         -: 1383:}
         -: 1384:
         -: 1385:// The helper function for {ASSERT|EXPECT}_EQ.
         -: 1386:template <typename T1, typename T2>
-function _ZN7testing8internal11CmpHelperEQINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_EENS_15AssertionResultEPKcSA_RKT_RKT0_ called 1 returned 100% blocks executed 80%
-function _ZN7testing8internal11CmpHelperEQIttEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 1 returned 100% blocks executed 75%
-function _ZN7testing8internal11CmpHelperEQIhhEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 2 returned 100% blocks executed 75%
-        4: 1387:AssertionResult CmpHelperEQ(const char* lhs_expression,
+function _ZN7testing8internal11CmpHelperEQIabEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 36 returned 100% blocks executed 75%
+function _ZN7testing8internal11CmpHelperEQIbbEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 114 returned 100% blocks executed 75%
+function _ZN7testing8internal11CmpHelperEQINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_EENS_15AssertionResultEPKcSA_RKT_RKT0_ called 54 returned 100% blocks executed 80%
+function _ZN7testing8internal11CmpHelperEQIttEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 18 returned 100% blocks executed 75%
+function _ZN7testing8internal11CmpHelperEQIhhEENS_15AssertionResultEPKcS4_RKT_RKT0_ called 36 returned 100% blocks executed 75%
+      258: 1387:AssertionResult CmpHelperEQ(const char* lhs_expression,
         -: 1388:                            const char* rhs_expression,
         -: 1389:                            const T1& lhs,
         -: 1390:                            const T2& rhs) {
         -: 1391:GTEST_DISABLE_MSC_WARNINGS_PUSH_(4389 /* signed/unsigned mismatch */)
-        4: 1392:  if (lhs == rhs) {
-call    0 returned 1
-branch  1 taken 1 (fallthrough)
-branch  2 taken 0
-branch  3 taken 1 (fallthrough)
-branch  4 taken 0
-branch  5 taken 2 (fallthrough)
+      258: 1392:  if (lhs == rhs) {
+branch  0 taken 36 (fallthrough)
+branch  1 taken 0
+branch  2 taken 114 (fallthrough)
+branch  3 taken 0
+call    4 returned 54
+branch  5 taken 54 (fallthrough)
 branch  6 taken 0
-        4: 1393:    return AssertionSuccess();
-call    0 returned 1
-call    1 returned 1
-call    2 returned 2
+branch  7 taken 18 (fallthrough)
+branch  8 taken 0
+branch  9 taken 36 (fallthrough)
+branch 10 taken 0
+      258: 1393:    return AssertionSuccess();
+call    0 returned 36
+call    1 returned 114
+call    2 returned 54
+call    3 returned 18
+call    4 returned 36
         -: 1394:  }
         -: 1395:GTEST_DISABLE_MSC_WARNINGS_POP_()
         -: 1396:
@@ -1477,6 +1509,8 @@ call    2 returned 2
 call    0 never executed
 call    1 never executed
 call    2 never executed
+call    3 never executed
+call    4 never executed
         -: 1398:}
         -: 1399:
         -: 1400:// With this overloaded version, we allow anonymous enums to be used
@@ -1496,17 +1530,21 @@ call    2 never executed
         -: 1414: public:
         -: 1415:  // This templatized version is for the general case.
         -: 1416:  template <typename T1, typename T2>
-function _ZN7testing8internal8EqHelperILb0EE7CompareINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES9_EENS_15AssertionResultEPKcSC_RKT_RKT0_ called 1 returned 100% blocks executed 100%
-function _ZN7testing8internal8EqHelperILb0EE7CompareIttEENS_15AssertionResultEPKcS6_RKT_RKT0_ called 1 returned 100% blocks executed 100%
-function _ZN7testing8internal8EqHelperILb0EE7CompareIhhEENS_15AssertionResultEPKcS6_RKT_RKT0_ called 2 returned 100% blocks executed 100%
-        4: 1417:  static AssertionResult Compare(const char* lhs_expression,
+function _ZN7testing8internal8EqHelperILb0EE7CompareIabEENS_15AssertionResultEPKcS6_RKT_RKT0_ called 36 returned 100% blocks executed 100%
+function _ZN7testing8internal8EqHelperILb0EE7CompareIbbEENS_15AssertionResultEPKcS6_RKT_RKT0_ called 114 returned 100% blocks executed 100%
+function _ZN7testing8internal8EqHelperILb0EE7CompareINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES9_EENS_15AssertionResultEPKcSC_RKT_RKT0_ called 54 returned 100% blocks executed 100%
+function _ZN7testing8internal8EqHelperILb0EE7CompareIttEENS_15AssertionResultEPKcS6_RKT_RKT0_ called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal8EqHelperILb0EE7CompareIhhEENS_15AssertionResultEPKcS6_RKT_RKT0_ called 36 returned 100% blocks executed 100%
+      258: 1417:  static AssertionResult Compare(const char* lhs_expression,
         -: 1418:                                 const char* rhs_expression,
         -: 1419:                                 const T1& lhs,
         -: 1420:                                 const T2& rhs) {
-        4: 1421:    return CmpHelperEQ(lhs_expression, rhs_expression, lhs, rhs);
-call    0 returned 1
-call    1 returned 1
-call    2 returned 2
+      258: 1421:    return CmpHelperEQ(lhs_expression, rhs_expression, lhs, rhs);
+call    0 returned 36
+call    1 returned 114
+call    2 returned 54
+call    3 returned 18
+call    4 returned 36
         -: 1422:  }
         -: 1423:
         -: 1424:  // With this overloaded version, we allow anonymous enums to be used
@@ -2317,11 +2355,11 @@ call    2 returned 2
         -: 2229:// namespace and has an all-caps name.
         -: 2230:int RUN_ALL_TESTS() GTEST_MUST_USE_RESULT_;
         -: 2231:
-function _Z13RUN_ALL_TESTSv called 1 returned 100% blocks executed 100%
-        1: 2232:inline int RUN_ALL_TESTS() {
-        1: 2233:  return ::testing::UnitTest::GetInstance()->Run();
-call    0 returned 1
-call    1 returned 1
+function _Z13RUN_ALL_TESTSv called 18 returned 11% blocks executed 100%
+       18: 2232:inline int RUN_ALL_TESTS() {
+       18: 2233:  return ::testing::UnitTest::GetInstance()->Run();
+call    0 returned 18
+call    1 returned 2
         -: 2234:}
         -: 2235:
         -: 2236:#endif  // GTEST_INCLUDE_GTEST_GTEST_H_

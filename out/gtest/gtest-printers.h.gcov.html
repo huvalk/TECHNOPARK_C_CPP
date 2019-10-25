@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntry">32</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-10-25 14:29:51</td>
+            <td class="headerValue">2019-10-26 01:25:33</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntry">37</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
@@ -552,11 +552,11 @@
 <span class="lineNum">     490 </span>            :   // char is signed or not.
 <span class="lineNum">     491 </span>            :   PrintTo(static_cast&lt;unsigned char&gt;(c), os);
 <span class="lineNum">     492 </span>            : }
-<span class="lineNum">     493 </span>            : 
+<a name="493"><span class="lineNum">     493 </span>            : </a>
 <span class="lineNum">     494 </span>            : // Overloads for other simple built-in types.
-<span class="lineNum">     495 </span>            : inline void PrintTo(bool x, ::std::ostream* os) {
-<span class="lineNum">     496 </span>            :   *os &lt;&lt; (x ? &quot;true&quot; : &quot;false&quot;);
-<span class="lineNum">     497 </span>            : }
+<span class="lineNum">     495 </span><span class="lineNoCov">          0 : inline void PrintTo(bool x, ::std::ostream* os) {</span>
+<span class="lineNum">     496 </span><span class="lineNoCov">          0 :   *os &lt;&lt; (x ? &quot;true&quot; : &quot;false&quot;);</span>
+<span class="lineNum">     497 </span><span class="lineNoCov">          0 : }</span>
 <span class="lineNum">     498 </span>            : 
 <span class="lineNum">     499 </span>            : // Overload for wchar_t type.
 <span class="lineNum">     500 </span>            : // Prints a wchar_t as a symbol if it is printable or as its internal

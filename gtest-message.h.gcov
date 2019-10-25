@@ -1,7 +1,7 @@
         -:    0:Source:/usr/include/gtest/gtest-message.h
         -:    0:Graph:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcno
         -:    0:Data:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcda
-        -:    0:Runs:1
+        -:    0:Runs:18
         -:    0:Programs:1
         -:    1:// Copyright 2005, Google Inc.
         -:    2:// All rights reserved.
@@ -87,9 +87,9 @@
         -:   82:// latter (it causes an access violation if you do).  The Message
         -:   83:// class hides this difference by treating a NULL char pointer as
         -:   84:// "(null)".
-function _ZN7testing7MessageD2Ev called 43 returned 100% blocks executed 100%
-       43:   85:class GTEST_API_ Message {
-call    0 returned 43
+function _ZN7testing7MessageD2Ev called 936 returned 100% blocks executed 100%
+      936:   85:class GTEST_API_ Message {
+call    0 returned 936
         -:   86: private:
         -:   87:  // The type of basic IO manipulators (endl, ends, and flush) for
         -:   88:  // narrow streams.

@@ -1,7 +1,7 @@
         -:    0:Source:/usr/include/gtest/internal/gtest-internal.h
         -:    0:Graph:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcno
         -:    0:Data:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcda
-        -:    0:Runs:1
+        -:    0:Runs:18
         -:    0:Programs:1
         -:    1:// Copyright 2005, Google Inc.
         -:    2:// All rights reserved.
@@ -469,8 +469,8 @@
         -:  464:class TestFactoryBase {
         -:  465: public:
 function _ZN7testing8internal15TestFactoryBaseD0Ev called 0 returned 0% blocks executed 0%
-function _ZN7testing8internal15TestFactoryBaseD2Ev called 1 returned 100% blocks executed 100%
-        1:  466:  virtual ~TestFactoryBase() {}
+function _ZN7testing8internal15TestFactoryBaseD2Ev called 216 returned 100% blocks executed 100%
+      216:  466:  virtual ~TestFactoryBase() {}
 call    0 never executed
 call    1 never executed
         -:  467:
@@ -479,8 +479,8 @@ call    1 never executed
         -:  470:  virtual Test* CreateTest() = 0;
         -:  471:
         -:  472: protected:
-function _ZN7testing8internal15TestFactoryBaseC2Ev called 1 returned 100% blocks executed 100%
-        1:  473:  TestFactoryBase() {}
+function _ZN7testing8internal15TestFactoryBaseC2Ev called 216 returned 100% blocks executed 100%
+      216:  473:  TestFactoryBase() {}
         -:  474:
         -:  475: private:
         -:  476:  GTEST_DISALLOW_COPY_AND_ASSIGN_(TestFactoryBase);
@@ -489,22 +489,165 @@ function _ZN7testing8internal15TestFactoryBaseC2Ev called 1 returned 100% blocks
         -:  479:// This class provides implementation of TeastFactoryBase interface.
         -:  480:// It is used in TEST and TEST_F macros.
         -:  481:template <class TestClass>
-function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestED0Ev called 1 returned 100% blocks executed 100%
-function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestED2Ev called 1 returned 100% blocks executed 100%
-function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestEC2Ev called 1 returned 100% blocks executed 100%
-        3:  482:class TestFactoryImpl : public TestFactoryBase {
-call    0 returned 1
-call    1 returned 1
-call    2 returned 1
-call    3 returned 1
+function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDictMen_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDictMen_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDateMen_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDateMen_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDictEq_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDictEq_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDateEq_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDateEq_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21Message_swapDict_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21Message_swapDict_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21Message_inPeriod_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21Message_inPeriod_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI24Message_inRecievers_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI24Message_inRecievers_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI14sort_heap_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI14sort_heap_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22findMessages_stat_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22findMessages_stat_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21findMessages_dyn_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21findMessages_dyn_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI30findMessages_cmp_dyn_stat_TestED0Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI30findMessages_cmp_dyn_stat_TestED2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI30findMessages_cmp_dyn_stat_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21findMessages_dyn_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22findMessages_stat_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI14sort_heap_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI24Message_inRecievers_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21Message_inPeriod_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI21Message_swapDict_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDateEq_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDictEq_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDateMen_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDictMen_TestEC2Ev called 18 returned 100% blocks executed 100%
+function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestEC2Ev called 18 returned 100% blocks executed 100%
+      648:  482:class TestFactoryImpl : public TestFactoryBase {
+call    0 returned 18
+call    1 returned 18
+call    2 returned 18
+call    3 returned 18
+call    4 returned 18
+call    5 returned 18
+call    6 returned 18
+call    7 returned 18
+call    8 returned 18
+call    9 returned 18
+call   10 returned 18
+call   11 returned 18
+call   12 returned 18
+call   13 returned 18
+call   14 returned 18
+call   15 returned 18
+call   16 returned 18
+call   17 returned 18
+call   18 returned 18
+call   19 returned 18
+call   20 returned 18
+call   21 returned 18
+call   22 returned 18
+call   23 returned 18
+call   24 returned 18
+call   25 returned 18
+call   26 returned 18
+call   27 returned 18
+call   28 returned 18
+call   29 returned 18
+call   30 returned 18
+call   31 returned 18
+call   32 returned 18
+call   33 returned 18
+call   34 returned 18
+call   35 returned 18
+call   36 returned 18
+call   37 returned 18
+call   38 returned 18
+call   39 returned 18
+call   40 returned 18
+call   41 returned 18
+call   42 returned 18
+call   43 returned 18
+call   44 returned 18
+call   45 returned 18
+call   46 returned 18
+call   47 returned 18
         -:  483: public:
-function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestE10CreateTestEv called 1 returned 100% blocks executed 83%
-        1:  484:  virtual Test* CreateTest() { return new TestClass; }
-call    0 returned 1
-call    1 returned 1
-branch  2 taken 1 (fallthrough)
+function _ZN7testing8internal15TestFactoryImplI23Message_toDictElem_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDictMen_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI23Message_cmpDateMen_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDictEq_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI22Message_cmpDateEq_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI21Message_swapDict_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI21Message_inPeriod_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI24Message_inRecievers_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI14sort_heap_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI22findMessages_stat_TestE10CreateTestEv called 18 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI21findMessages_dyn_TestE10CreateTestEv called 2 returned 100% blocks executed 83%
+function _ZN7testing8internal15TestFactoryImplI30findMessages_cmp_dyn_stat_TestE10CreateTestEv called 2 returned 100% blocks executed 83%
+      184:  484:  virtual Test* CreateTest() { return new TestClass; }
+call    0 returned 18
+call    1 returned 18
+branch  2 taken 18 (fallthrough)
 branch  3 taken 0 (throw)
 call    4 never executed
+call    5 returned 18
+call    6 returned 18
+branch  7 taken 18 (fallthrough)
+branch  8 taken 0 (throw)
+call    9 never executed
+call   10 returned 18
+call   11 returned 18
+branch 12 taken 18 (fallthrough)
+branch 13 taken 0 (throw)
+call   14 never executed
+call   15 returned 18
+call   16 returned 18
+branch 17 taken 18 (fallthrough)
+branch 18 taken 0 (throw)
+call   19 never executed
+call   20 returned 18
+call   21 returned 18
+branch 22 taken 18 (fallthrough)
+branch 23 taken 0 (throw)
+call   24 never executed
+call   25 returned 18
+call   26 returned 18
+branch 27 taken 18 (fallthrough)
+branch 28 taken 0 (throw)
+call   29 never executed
+call   30 returned 18
+call   31 returned 18
+branch 32 taken 18 (fallthrough)
+branch 33 taken 0 (throw)
+call   34 never executed
+call   35 returned 18
+call   36 returned 18
+branch 37 taken 18 (fallthrough)
+branch 38 taken 0 (throw)
+call   39 never executed
+call   40 returned 18
+call   41 returned 18
+branch 42 taken 18 (fallthrough)
+branch 43 taken 0 (throw)
+call   44 never executed
+call   45 returned 18
+call   46 returned 18
+branch 47 taken 18 (fallthrough)
+branch 48 taken 0 (throw)
+call   49 never executed
+call   50 returned 2
+call   51 returned 2
+branch 52 taken 2 (fallthrough)
+branch 53 taken 0 (throw)
+call   54 never executed
+call   55 returned 2
+call   56 returned 2
+branch 57 taken 2 (fallthrough)
+branch 58 taken 0 (throw)
+call   59 never executed
         -:  485:};
         -:  486:
         -:  487:#if GTEST_OS_WINDOWS
@@ -524,12 +667,12 @@ call    4 never executed
         -:  501:typedef void (*SetUpTestCaseFunc)();
         -:  502:typedef void (*TearDownTestCaseFunc)();
         -:  503:
-function _ZN7testing8internal12CodeLocationD2Ev called 3 returned 100% blocks executed 100%
-        3:  504:struct CodeLocation {
-call    0 returned 3
-function _ZN7testing8internal12CodeLocationC2ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEi called 1 returned 100% blocks executed 100%
-        1:  505:  CodeLocation(const string& a_file, int a_line) : file(a_file), line(a_line) {}
-call    0 returned 1
+function _ZN7testing8internal12CodeLocationD2Ev called 648 returned 100% blocks executed 100%
+      648:  504:struct CodeLocation {
+call    0 returned 648
+function _ZN7testing8internal12CodeLocationC2ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEi called 216 returned 100% blocks executed 100%
+      216:  505:  CodeLocation(const string& a_file, int a_line) : file(a_file), line(a_line) {}
+call    0 returned 216
         -:  506:
         -:  507:  string file;
         -:  508:  int line;

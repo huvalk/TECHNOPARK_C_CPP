@@ -4,6 +4,7 @@
 #include "cpp_message.h"
 #include <stdbool.h>
 
+// сортировка кучей
 extern "C" bool sort(Dict *const arr, size_t size,
                      bool (*cmp)(const Dict *const, const Dict *const));
 

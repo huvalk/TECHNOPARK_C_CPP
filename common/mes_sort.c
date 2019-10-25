@@ -1,6 +1,7 @@
 #include "message.h"
 #include <stddef.h>
 
+// просев элемента вниз
 bool siftDown(size_t i, size_t size, Dict *const dict,
               bool (*cmp)(const Dict *const, const Dict *const)) {
   if (i >= size)
@@ -26,6 +27,7 @@ bool siftDown(size_t i, size_t size, Dict *const dict,
   return true;
 }
 
+// построить кучу
 bool buildHeap(size_t size, Dict *const dict,
                bool (*cmp)(const Dict *const, const Dict *const)) {
   for (ptrdiff_t i = size / 2 - 1; i >= 0; i--) {
@@ -35,8 +37,11 @@ bool buildHeap(size_t size, Dict *const dict,
   return true;
 }
 
+// сортировка кучей
 bool sort(Dict *const arr, size_t size,
           bool (*cmp)(const Dict *const, const Dict *const)) {
+    if(arr == NULL || cmp == NULL)
+        return false;
   if (buildHeap(size, arr, cmp) == false)
     return false;
   while (size > 1) {

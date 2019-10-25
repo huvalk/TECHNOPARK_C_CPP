@@ -86,7 +86,7 @@ int main() {
     }
 
     // вызов библиотечной функции
-    Dict *res = imports->findMessages(&n, arr, user, period);
+    Dict *res = imports->findMessage(&n, arr, user, period);
     if (res == NULL) {
         printf(ALLOC_ERR);
         free(arr);
