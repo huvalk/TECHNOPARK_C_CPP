@@ -40,8 +40,8 @@ bool buildHeap(size_t size, Dict *const dict,
 // сортировка кучей
 bool sort(Dict *const arr, size_t size,
           bool (*cmp)(const Dict *const, const Dict *const)) {
-    if(arr == NULL || cmp == NULL)
-        return false;
+  if (arr == NULL || cmp == NULL)
+    return false;
   if (buildHeap(size, arr, cmp) == false)
     return false;
   while (size > 1) {

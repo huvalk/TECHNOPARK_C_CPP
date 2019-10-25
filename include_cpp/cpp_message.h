@@ -8,28 +8,28 @@
 
 // Дата
 typedef struct Date {
-    u_int8_t day;
-    u_int8_t mounth;
-    unsigned short year;
+  u_int8_t day;
+  u_int8_t mounth;
+  unsigned short year;
 } Date;
 
 // сообщение
 typedef struct Message {
-    Date date;
-    char *user_name;
-    char *body;
-    char *theme;
-    // поле recievers находится непосредственно внутри структы для более
-    // эффективной работы с кэшем при поиске
-    char recievers[DEF_STR_SIZE * 15];
+  Date date;
+  char *user_name;
+  char *body;
+  char *theme;
+  // поле recievers находится непосредственно внутри структы для более
+  // эффективной работы с кэшем при поиске
+  char recievers[DEF_STR_SIZE * 15];
 } Message;
 
 // вспомогательная струтура
 typedef struct Dict {
-    Date date;
-    // поле theme находится непосредственно внутри структы для более эффективной
-    // работы с кэшем при сортировке и выводе
-    char theme[4 * DEF_STR_SIZE];
+  Date date;
+  // поле theme находится непосредственно внутри структы для более эффективной
+  // работы с кэшем при сортировке и выводе
+  char theme[4 * DEF_STR_SIZE];
 } Dict;
 
 extern "C" {
@@ -63,6 +63,5 @@ bool inPeriod(const Date *const period, const Message *const cur);
 
 // проверка на совпадение получателя с именем пользователя
 int8_t inRecievers(const char *const user, const Message *const cur);
-
 };
 #endif // IZ2_CPP_MESSAGE_H

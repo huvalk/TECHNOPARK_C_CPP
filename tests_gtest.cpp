@@ -47,7 +47,7 @@ public:
     period[1].mounth = 100;
     period[1].year = 100;
 
-    max_size = 1000000;
+    max_size = 10000;
     mes = new Message[max_size];
 
     genMessages(mes, max_size);
@@ -102,19 +102,27 @@ TEST(Message, toDictElem) {
 }
 
 TEST(Message, wrong_input) {
-    ASSERT_EXIT((getMessage(NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((getDate(NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((cmpDictMen(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((cmpDictEq(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((cmpDateMen(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((cmpDateEq(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((swapDict(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((inPeriod(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((inRecievers(NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+  ASSERT_EXIT((getMessage(NULL), exit(0)), ::testing::ExitedWithCode(0), ".*");
+  ASSERT_EXIT((getDate(NULL), exit(0)), ::testing::ExitedWithCode(0), ".*");
+  ASSERT_EXIT((cmpDictMen(NULL, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
+  ASSERT_EXIT((cmpDictEq(NULL, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
+  ASSERT_EXIT((cmpDateMen(NULL, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
+  ASSERT_EXIT((cmpDateEq(NULL, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
+  ASSERT_EXIT((swapDict(NULL, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
+  ASSERT_EXIT((inPeriod(NULL, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
+  ASSERT_EXIT((inRecievers(NULL, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
 }
 
 TEST(sort, wrong_input) {
-    ASSERT_EXIT((sort(NULL, 0, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+  ASSERT_EXIT((sort(NULL, 0, NULL), exit(0)), ::testing::ExitedWithCode(0),
+              ".*");
 }
 
 TEST(Message, cmpDictMen) {
@@ -208,7 +216,8 @@ TEST(sort, heap) {
   bool flag = true;
 
   for (size_t i = 0; i < size - 1 && flag; i++) {
-    if (!cmpDictMen(dict + i, dict + i + 1) && !cmpDictEq(dict + i, dict + i + 1)) {
+    if (!cmpDictMen(dict + i, dict + i + 1) &&
+        !cmpDictEq(dict + i, dict + i + 1)) {
       flag = false;
     }
   }
@@ -219,8 +228,11 @@ TEST(sort, heap) {
 }
 
 TEST(findMessages, wrong_input) {
-    ASSERT_EXIT((run(NULL, NULL, NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
-    ASSERT_EXIT((MyEnvironment::imports->findMessage(NULL, NULL, NULL, NULL),exit(0)),::testing::ExitedWithCode(0),".*");
+  ASSERT_EXIT((run(NULL, NULL, NULL, NULL), exit(0)),
+              ::testing::ExitedWithCode(0), ".*");
+  ASSERT_EXIT(
+      (MyEnvironment::imports->findMessage(NULL, NULL, NULL, NULL), exit(0)),
+      ::testing::ExitedWithCode(0), ".*");
 }
 
 TEST(findMessages, stat) {
@@ -233,16 +245,17 @@ TEST(findMessages, stat) {
   Dict *s_res = run(&size, mes, user, MyEnvironment::period);
 
   bool flag = true;
-    for (size_t i = 0; i < size - 1 && flag; i++) {
-        if (!cmpDictMen(s_res + i, s_res + i + 1) && !cmpDictEq(s_res + i, s_res + i + 1)) {
-            flag = false;
-        }
+  for (size_t i = 0; i < size - 1 && flag; i++) {
+    if (!cmpDictMen(s_res + i, s_res + i + 1) &&
+        !cmpDictEq(s_res + i, s_res + i + 1)) {
+      flag = false;
     }
+  }
 
   EXPECT_EQ(flag, true);
 
   MyEnvironment::s_res = s_res;
-    delete[] user;
+  delete[] user;
 }
 
 TEST(findMessages, dyn) {
@@ -253,20 +266,20 @@ TEST(findMessages, dyn) {
   strcpy(user, "B");
 
   Dict *d_res = MyEnvironment::imports->findMessage(&size, mes, user,
-                                                     MyEnvironment::period);
+                                                    MyEnvironment::period);
 
   bool flag = true;
-    for (size_t i = 0; i < size - 1 && flag; i++) {
-        if (!cmpDictMen(d_res + i, d_res + i + 1) &&
-            !cmpDictEq(d_res + i, d_res + i + 1)) {
-            flag = false;
-        }
+  for (size_t i = 0; i < size - 1 && flag; i++) {
+    if (!cmpDictMen(d_res + i, d_res + i + 1) &&
+        !cmpDictEq(d_res + i, d_res + i + 1)) {
+      flag = false;
     }
+  }
 
   EXPECT_EQ(flag, true);
 
   MyEnvironment::d_res = d_res;
-    delete[] user;
+  delete[] user;
 }
 
 TEST(findMessages, cmp_dyn_stat) {
