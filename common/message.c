@@ -53,7 +53,7 @@ void toDictElem(const Message *const src, Dict *const dest) {
 bool cmpDateMen(const Date *const left, const Date *const right) {
   int d1 = left->year * 365 + left->mounth * 31 + left->day;
   int d2 = right->year * 365 + right->mounth * 31 + right->day;
-  if (d1 < d2) {
+  if (d1 <= d2) {
     return true;
   } else {
     return false;

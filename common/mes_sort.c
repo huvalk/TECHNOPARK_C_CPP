@@ -1,4 +1,5 @@
 #include "message.h"
+#include <stddef.h>
 
 bool siftDown(size_t i, size_t size, Dict *const dict,
               bool (*cmp)(const Dict *const, const Dict *const)) {
