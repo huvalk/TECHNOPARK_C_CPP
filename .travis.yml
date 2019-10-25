@@ -39,5 +39,4 @@ script:
   - valgrind --trace-children=yes ./tests_gtest
   - gcov -b -c CMakeFiles/tests_gtest.dir/tests_gtest.cpp
   - lcov --capture --directory CMakeFiles/tests_gtest.dir/ --output-file coverage.info
-  - cd ..
   - genhtml coverage.info --output-directory out
