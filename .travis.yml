@@ -34,3 +34,4 @@ script:
   - mkdir build
   - cd build
   - cmake ../
+  - valgrind ./tests_gtest

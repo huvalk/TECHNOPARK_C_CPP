@@ -5,6 +5,6 @@
 #include <stdbool.h>
 
 extern "C" bool sort(Dict *const arr, size_t size,
-          bool (*cmp)(const Dict *const, const Dict *const));
+                     bool (*cmp)(const Dict *const, const Dict *const));
 
-#endif //IZ2_CPP_MES_SORT_H
+#endif // IZ2_CPP_MES_SORT_H

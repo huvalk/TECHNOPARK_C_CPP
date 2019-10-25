@@ -84,7 +84,6 @@ Dict *mergeFromPipe(int *const fd, const size_t cores, size_t *const chunk_len,
                     bool (*cmp)(const Dict *const, const Dict *const)) {
   // чтение первого массива для слияния
   size_t start = 0, cur_size = 0;
-  // TODO блокируется здесь
   Dict *res = readFromPipe(fd, cores, &start, &cur_size);
   if (res == NULL)
     return NULL;
@@ -176,8 +175,7 @@ size_t getChunks(size_t *const chunk_len, const size_t cores,
   return cores;
 }
 
-//TODO проверить передачу параметров
-//TODO проверить write и read
+
 bool startChild(int *const fd, size_t *const chunk_len,
                 const Message *const messages, const char *const user,
                 const Date *const period) {
@@ -255,7 +253,7 @@ Dict *run(size_t *const message_count, const Message *const messages,
   while (wpid = wait(&status) > 0)
     ;
   free(chunk_len);
-  if(status != 0)
-      return NULL;
+  if (status != 0)
+    return NULL;
   return res;
 }

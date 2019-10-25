@@ -1,6 +1,6 @@
-#include <dlfcn.h>
 #include "common/message.h"
 #include "dyn_lib/d_user_messages.h"
+#include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
 

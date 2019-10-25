@@ -38,9 +38,13 @@ bool getDate(Date *current);
 
 void toDictElem(const Message *const src, Dict *const dest);
 
-bool cmp_date_men(const Date *const left, const Date *const right);
+bool cmpDateMen(const Date *const left, const Date *const right);
 
 bool cmpDictMen(const Dict *const left, const Dict *const right);
+
+bool cmpDateEq(const Date *const left, const Date *const right);
+
+bool cmpDictEq(const Dict *const left, const Dict *const right);
 
 bool swapDict(Dict *const left, Dict *const right);
 

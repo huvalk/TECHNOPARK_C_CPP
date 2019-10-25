@@ -1,0 +1,296 @@
+        -:    0:Source:/home/huvalk/CLionProjects/TECHNOPARK/C_CPP/IZ_2/tests_gtest.cpp
+        -:    0:Graph:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcno
+        -:    0:Data:cmake-build-debug/CMakeFiles/tests_gtest.dir/tests_gtest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "include_cpp/cpp_d_user_messages.h"
+        -:    2:#include "include_cpp/cpp_s_user_messages.h"
+        -:    3:#include "gtest/gtest.h"
+        -:    4:#include <dlfcn.h>
+        -:    5:
+        -:    6:using namespace std;
+        -:    7:
+        -:    8://std::istream& operator>> (std::istream &in, Message &mes)
+        -:    9://{
+        -:   10://    in >> mes.date;
+        -:   11://    in >> mes.type;
+        -:   12://    in >> mes.sum;
+        -:   13://    in >> mes.date.day;
+        -:   14://    in >> mes.date.mounth;
+        -:   15://    in >> mes.date.year;
+        -:   16://    return in;
+        -:   17://}
+        -:   18:
+function _ZN13MyEnvironmentC2Ev called 1 returned 100% blocks executed 100%
+        1:   19:class MyEnvironment : public ::testing::Environment {
+call    0 returned 1
+        -:   20:public:
+function _ZN13MyEnvironmentD0Ev called 1 returned 100% blocks executed 100%
+function _ZN13MyEnvironmentD2Ev called 1 returned 100% blocks executed 100%
+        2:   21:  virtual ~MyEnvironment() {}
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+        -:   22:
+        -:   23:  // Override this to define how to set up the environment.
+function _ZN13MyEnvironment5SetUpEv called 1 returned 100% blocks executed 100%
+        1:   24:  virtual void SetUp() override {
+        1:   25:    library = dlopen("libdn_lib.so", RTLD_LAZY);
+call    0 returned 1
+        1:   26:    imports = (exportVtable *)(dlsym(library, "exports"));
+call    0 returned 1
+        1:   27:  }
+        -:   28:
+        -:   29:  // Override this to define how to tear down the environment.
+function _ZN13MyEnvironment8TearDownEv called 1 returned 100% blocks executed 100%
+        1:   30:  virtual void TearDown() override {
+        1:   31:    dlclose(library);
+call    0 returned 1
+        1:   32:    imports = NULL;
+        1:   33:  }
+        -:   34:
+        -:   35:  static void *library;
+        -:   36:  static exportVtable *imports;
+        -:   37:};
+        -:   38:
+        -:   39:void *MyEnvironment::library;
+        -:   40:exportVtable *MyEnvironment::imports;
+        -:   41:
+function _ZN23Message_toDictElem_TestD0Ev called 1 returned 100% blocks executed 100%
+function _ZN23Message_toDictElem_TestD2Ev called 1 returned 100% blocks executed 100%
+function _ZN23Message_toDictElem_Test8TestBodyEv called 1 returned 100% blocks executed 28%
+function _ZN23Message_toDictElem_TestC2Ev called 1 returned 100% blocks executed 100%
+        5:   42:TEST(Message, toDictElem) {
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+call    3 returned 1
+call    4 returned 1
+branch  5 taken 1 (fallthrough)
+branch  6 taken 0 (throw)
+call    7 returned 1
+branch  8 taken 1 (fallthrough)
+branch  9 taken 0 (throw)
+call   10 returned 1
+branch 11 taken 1 (fallthrough)
+branch 12 taken 0 (throw)
+call   13 returned 1
+call   14 returned 1
+call   15 returned 1
+call   16 never executed
+call   17 never executed
+call   18 never executed
+call   19 returned 1
+call   20 returned 1
+call   21 returned 1
+call   22 returned 1
+        1:   43:    Message *mes = new Message{{1, 1, 1}};
+call    0 returned 1
+        1:   44:    mes->body = (char *)"b";
+        1:   45:    mes->user_name = (char *)"n";
+        1:   46:    mes->theme = (char *)"t";
+        1:   47:    strcpy(mes->recievers, "/r.");
+        -:   48:
+        1:   49:    Dict* dict = new Dict;
+call    0 returned 1
+        1:   50:    toDictElem(mes, dict);
+call    0 returned 1
+        -:   51:
+        1:   52:    EXPECT_EQ( dict->date.day, mes->date.day );
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 1
+call   21 never executed
+call   22 never executed
+call   23 never executed
+call   24 never executed
+        1:   53:    EXPECT_EQ( dict->date.mounth, mes->date.mounth );
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 1
+call   21 never executed
+call   22 never executed
+call   23 never executed
+call   24 never executed
+        1:   54:    EXPECT_EQ( dict->date.year, mes->date.year );
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0 (throw)
+call    3 returned 1
+branch  4 taken 0 (fallthrough)
+branch  5 taken 1
+call    6 never executed
+branch  7 never executed
+branch  8 never executed
+call    9 never executed
+branch 10 never executed
+branch 11 never executed
+call   12 never executed
+branch 13 never executed
+branch 14 never executed
+call   15 never executed
+branch 16 never executed
+branch 17 never executed
+call   18 never executed
+call   19 never executed
+call   20 returned 1
+call   21 never executed
+call   22 never executed
+call   23 never executed
+call   24 never executed
+call   25 never executed
+        1:   55:    EXPECT_EQ( std::string( dict->theme ), std::string( mes->theme ) );
+call    0 returned 1
+call    1 returned 1
+branch  2 taken 1 (fallthrough)
+branch  3 taken 0 (throw)
+call    4 returned 1
+call    5 returned 1
+branch  6 taken 1 (fallthrough)
+branch  7 taken 0 (throw)
+call    8 returned 1
+branch  9 taken 1 (fallthrough)
+branch 10 taken 0 (throw)
+call   11 returned 1
+call   12 returned 1
+call   13 returned 1
+call   14 returned 1
+call   15 returned 1
+branch 16 taken 0 (fallthrough)
+branch 17 taken 1
+call   18 never executed
+branch 19 never executed
+branch 20 never executed
+call   21 never executed
+branch 22 never executed
+branch 23 never executed
+call   24 never executed
+branch 25 never executed
+branch 26 never executed
+call   27 never executed
+branch 28 never executed
+branch 29 never executed
+call   30 never executed
+call   31 never executed
+call   32 returned 1
+call   33 never executed
+call   34 never executed
+call   35 never executed
+call   36 never executed
+call   37 never executed
+call   38 never executed
+        1:   56:}
+        -:   57:
+        -:   58://TEST(Message, cmpDictMen) {
+        -:   59://    Dict *left = new Dict{{1, 2, 1}};
+        -:   60://    strcpy(left->theme, "d");
+        -:   61://    Dict *right = new Dict{{2, 1, 2}};
+        -:   62://    strcpy(right->theme, "f");
+        -:   63://
+        -:   64://
+        -:   65://    EXPECT_EQ( cmpDictMen(left, right), true);
+        -:   66://
+        -:   67://    delete left;
+        -:   68://    delete right;
+        -:   69://}
+        -:   70://
+        -:   71://TEST(Message, cmpDateMen) {
+        -:   72://    Date left = {1, 2, 1};
+        -:   73://    Date right = {2, 1, 2};
+        -:   74://
+        -:   75://    EXPECT_EQ( cmpDateMen(&left, &right), true);
+        -:   76://}
+        -:   77://
+        -:   78://TEST(Message, swapDict) {
+        -:   79://    Dict *left = new Dict{{1, 2, 1}};
+        -:   80://    strcpy(left->theme, "d");
+        -:   81://    Dict *right = new Dict{{2, 1, 2}};
+        -:   82://    strcpy(right->theme, "f");
+        -:   83://    swapDict(left, right);
+        -:   84://
+        -:   85://    EXPECT_EQ( string(left->theme), "f"s);
+        -:   86://    EXPECT_EQ( string(right->theme), "d"s);
+        -:   87://
+        -:   88://    delete left;
+        -:   89://    delete right;
+        -:   90://}
+        -:   91://
+        -:   92://TEST(Message, inPeriod) {
+        -:   93://    Date *dates = new Date[3];
+        -:   94://    dates[0] = {1, 2, 1};
+        -:   95://    dates[1] = {1, 5, 2};
+        -:   96://    Message *mes = new Message{1, 3, 2};
+        -:   97://
+        -:   98://    EXPECT_EQ( inPeriod(dates, mes), true);
+        -:   99://
+        -:  100://    delete[] dates;
+        -:  101://    delete mes;
+        -:  102://}
+        -:  103://
+        -:  104://TEST(Message, inRecievers) {
+        -:  105://    Message *mes = new Message{1, 3, 2};
+        -:  106://    strcpy(mes->recievers, "/af./fa.");
+        -:  107://    char *user= new char[4];
+        -:  108://    strcpy(user, "fa");
+        -:  109://    EXPECT_EQ( inRecievers(user, mes), true);
+        -:  110://    strcpy(user, "f");
+        -:  111://    EXPECT_EQ( inRecievers(user, mes), false);
+        -:  112://
+        -:  113://    delete[] user;
+        -:  114://    delete mes;
+        -:  115://}
+        -:  116:
+function main called 1 returned 100% blocks executed 100%
+        1:  117:int main(int argc, char **argv) {
+        1:  118:  ::testing::InitGoogleTest(&argc, argv);
+call    0 returned 1
+        1:  119:  AddGlobalTestEnvironment(new MyEnvironment);
+call    0 returned 1
+call    1 returned 1
+call    2 returned 1
+        1:  120:  return RUN_ALL_TESTS();
+call    0 returned 1
+function _GLOBAL__sub_I__ZN13MyEnvironment7libraryE called 1 returned 100% blocks executed 100%
+function _Z41__static_initialization_and_destruction_0ii called 1 returned 100% blocks executed 68%
+        3:  121:}
+call    0 returned 1
+branch  1 taken 1 (fallthrough)
+branch  2 taken 0
+branch  3 taken 1 (fallthrough)
+branch  4 taken 0

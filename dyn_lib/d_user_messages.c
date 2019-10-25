@@ -1,8 +1,8 @@
+#include "d_user_messages.h"
+#include "../common/mes_sort.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "d_user_messages.h"
-#include "../common/mes_sort.h"
 
 #define DEF_ARR_SIZE 2
 
