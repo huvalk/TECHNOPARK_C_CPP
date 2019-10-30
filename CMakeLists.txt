@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9.2)
 project(IZ2 C CXX)
 
 set (CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-g -O0 -Wall --coverage")
+set(CMAKE_CXX_FLAGS "-g -O0 -Wall --coverage ")
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 add_subdirectory(dyn_lib)
