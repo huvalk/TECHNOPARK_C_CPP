@@ -1,0 +1,42 @@
+dist:     trusty
+sudo:     required
+
+language: cpp
+
+os:
+  - linux
+
+compiler:
+  - gcc
+
+env:
+  - TARGET_CPU=amd64 BUILD_CONFIGURATION=Debug
+  - TARGET_CPU=amd64 BUILD_CONFIGURATION=Release
+  - TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
+  - TARGET_CPU=x86 BUILD_CONFIGURATION=Release
+
+install:
+  - sudo apt-get install cppcheck
+  - sudo apt-get -qq update
+  - sudo apt-get install lcov
+  - sudo apt-get install -y libgtest-dev valgrind cmake
+  - sudo wget https://github.com/google/googletest/archive/release-1.7.0.tar.gz
+  - sudo tar xf release-1.7.0.tar.gz
+  - cd googletest-release-1.7.0
+  - sudo cmake -DBUILD_SHARED_LIBS=ON .
+  - sudo make
+  - sudo cp -a include/gtest /usr/include
+  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+  - which valgrind
+  - cd "${TRAVIS_BUILD_DIR}"
+
+script:
+  - cppcheck .
+  - mkdir build
+  - cd build
+  - cmake ../
+  - make tests_gtest
+  - valgrind --trace-children=yes ./tests_gtest
+  - gcov -b -c CMakeFiles/tests_gtest.dir/tests_gtest.cpp
+  - lcov --capture --directory CMakeFiles/tests_gtest.dir/ --output-file coverage.info
+  - genhtml coverage.info --output-directory out
